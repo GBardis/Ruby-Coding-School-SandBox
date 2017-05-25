@@ -6,7 +6,6 @@
 
 # Ignore bundler config.
 /.bundle
-/public/elasticsearch_cert.pem
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
