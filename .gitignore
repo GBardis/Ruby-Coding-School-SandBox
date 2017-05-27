@@ -16,3 +16,5 @@
 /yarn-error.log
 
 .byebug_history
+.idea/*
+*.pem
