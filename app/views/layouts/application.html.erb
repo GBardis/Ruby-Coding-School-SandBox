@@ -36,7 +36,7 @@
   <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
 
@@ -64,23 +64,22 @@
         </a>
         <ul class="dropdown-menu dropdown-user">
 
-          <% if user_signed_in?%>
-          <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-          </li>
-          <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-          </li>
-          <li class="divider"></li>
-          <li>
-            <%= link_to '<i class="fa fa-sign-out fa-fw"></i> Logout'.html_safe ,destroy_user_session_path, method: :delete%>
-          </li>
-          <%else%>
+          <% if user_signed_in? %>
               <li>
-                <%= link_to '<i class="fa fa-sign-in fa-fw"></i> Login'.html_safe , new_user_session_path%>
+                <%= link_to '<i class="fa fa-user fa-fw"></i> User Profile'.html_safe, edit_user_registration_path %>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <%= link_to '<i class="fa fa-sign-out fa-fw"></i> Logout'.html_safe, destroy_user_session_path %>
+              </li>
+          <% else %>
+              <li>
+                <%= link_to '<i class="fa fa-sign-in fa-fw"></i> Login'.html_safe, new_user_session_path %>
               </li>
               <li>
-                <%= link_to '<i class="fa fa-sign-in fa-fw"></i> Sign up'.html_safe , new_user_registration_path%>
+                <%= link_to '<i class="fa fa-sign-in fa-fw"></i> Sign up'.html_safe, new_user_registration_path %>
               </li>
-          <%end%>
+          <% end %>
 
         </ul>
         <!-- /.dropdown-user -->
@@ -216,7 +215,7 @@
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#dataTables-example').DataTable({
             responsive: true
         });
