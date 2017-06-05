@@ -13,7 +13,7 @@ class ElasticController < ApplicationController
 
     #  @response = client.search index:'threatdb_2017.05.26',body:{"query":{"bool":{"must":{"query_string":{"default_field":"threatdb_tri.threat_type","query":"t_spamip"}},"must_not":[],"should":[]}},"from":0,"size":1,"sort":[],"aggs":{}}
 
-    @response = client.search index:'threatdb_2017.05.26',body:{"query":{"bool":{"must":[{"match_all":{}}],"must_not":[],"should":[]}},"from":0,"size":100,"sort":[],"aggs":{}}
+    @response = client.search index:'threatdb_2017.06.02',body:{"query":{"bool":{"must":[{"match_all":{}}],"must_not":[],"should":[]}},"from":0,"size":100,"sort":[],"aggs":{}}
     @result = JSON.parse(JSON.dump(@response.as_json))
     @obj = Hashie::Mash.new @result
   end
@@ -25,7 +25,7 @@ class ElasticController < ApplicationController
         ca_file: 'public/elasticsearch_cert.pem',
       }
     }
-    @threatdb_tri = client.search index:'threatdb_2017.05.26',body:{"query":{"bool":{"must":[{"match_all":{}}],"must_not":[],"should":[]}},"from":0,"size":10,"sort":[{ "threat_tri":{"order":"desc"}}],"aggs":{}}
+    @threatdb_tri = client.search index:'threatdb_2017.06.02',body:{"query":{"bool":{"must":[{"match_all":{}}],"must_not":[],"should":[]}},"from":0,"size":10,"sort":[{ "threat_tri":{"order":"desc"}}],"aggs":{}}
     @result_second = JSON.parse(JSON.dump(@threatdb_tri.as_json))
     @obj_second = Hashie::Mash.new @result_second
   end
