@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   root 'index#search'
 
   # Index controller
-  get '/search/:term/*other', to: 'index#search'
+  #  term, page_size, page_num, exact_search = true, order_by = '', order_by_direction
+  get '/search/:term', to: 'index#search'
 
   # Threat controller
   get '/threat/:id', to: 'threat#show'
@@ -23,7 +24,8 @@ Rails.application.routes.draw do
   post '/admin', to: 'admin#edit'
 
   # Api controller
-  get '/api/:term', to: 'api#search'
+  get '/api/:term(/page_size/:page_size)(/page_num/:page_num)(/exact_search/:exact_search)(/order_by/:order_by)'\
+'(/order_by_direction/:order_by_direction)', to: 'api#search', :constraints => { :term => /[^\/]+/ }
 
   # test controllers
   get 'elastic' => 'elastic#elastic'
