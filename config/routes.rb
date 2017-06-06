@@ -24,8 +24,12 @@ Rails.application.routes.draw do
   post '/admin', to: 'admin#edit'
 
   # Api controller
-  get '/api/:term(/page_size/:page_size)(/page_num/:page_num)(/exact_search/:exact_search)(/order_by/:order_by)'\
-'(/order_by_direction/:order_by_direction)', to: 'api#search', :constraints => { :term => /[^\/]+/ }
+  get '/api/search/:term(/page_size/:page_size)(/page_num/:page_num)(/exact_search/:exact_search)(/order_by/:order_by)'\
+      '(/order_by_direction/:order_by_direction)', to: 'api#search', :constraints => { :term => /[^\/]+/ }
+
+  get '/api/threat/:id', to: 'api#threat', :constraints => { :term => /[^\/]+/ }
+
+  get '/api/analytics/:stats_type', to: 'api#analytics'
 
   # test controllers
   get 'elastic' => 'elastic#elastic'
