@@ -87,6 +87,7 @@ GEM
       elasticsearch-transport (= 5.0.4)
     elasticsearch-api (5.0.4)
       multi_json
+    elasticsearch-dsl (0.1.5)
     elasticsearch-model (5.0.1)
       activesupport (> 3)
       elasticsearch (~> 5)
@@ -113,8 +114,8 @@ GEM
     hashie (3.5.5)
     i18n (0.8.4)
     ice_nine (0.11.2)
-    jbuilder (2.6.4)
-      activesupport (>= 3.0.0)
+    jbuilder (2.7.0)
+      activesupport (>= 4.2.0)
       multi_json (>= 1.2)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -128,17 +129,17 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
-    mini_portile2 (2.1.0)
+    mini_portile2 (2.2.0)
     minitest (5.10.2)
     multi_json (1.12.1)
     multipart-post (2.0.0)
     mysql2 (0.4.6)
     mysql2 (0.4.6-x86-mingw32)
     nio4r (2.1.0)
-    nokogiri (1.7.2)
-      mini_portile2 (~> 2.1.0)
-    nokogiri (1.7.2-x86-mingw32)
-      mini_portile2 (~> 2.1.0)
+    nokogiri (1.8.0)
+      mini_portile2 (~> 2.2.0)
+    nokogiri (1.8.0-x86-mingw32)
+      mini_portile2 (~> 2.2.0)
     orm_adapter (0.5.0)
     public_suffix (2.0.5)
     puma (3.9.1)
@@ -243,7 +244,9 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   devise
   devise-bootstrap-views
+  elasticsearch
   elasticsearch-api
+  elasticsearch-dsl
   elasticsearch-model
   elasticsearch-persistence
   elasticsearch-transport

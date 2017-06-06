@@ -33,11 +33,12 @@ gem 'bcrypt', git: 'https://github.com/codahale/bcrypt-ruby.git', :require => 'b
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-
+gem 'elasticsearch'
 gem 'elasticsearch-model'
-gem 'elasticsearch-transport'
-gem 'elasticsearch-persistence'
+gem "elasticsearch-persistence", require: 'elasticsearch/persistence/model'
 gem 'elasticsearch-api'
+gem 'elasticsearch-transport'
+gem 'elasticsearch-dsl'
 gem 'devise'
 gem 'devise-bootstrap-views'
 group :development, :test do
