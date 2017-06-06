@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
-  devise_for :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root 'elastic#elastic'
-  get 'elastic_second' => 'elastic#elastic_second'
-  resources :posts
+  # root to: 'search#search'
+  #get '/search' => 'search#search', as: :search
+  root to: 'search#index'
+
+  resources :search do
+    collection { get :search }
+  end
+  put '/search' => 'search#update', as: :search_update
 end
