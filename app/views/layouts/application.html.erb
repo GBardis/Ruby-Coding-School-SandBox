@@ -36,8 +36,8 @@
   <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <!--<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>-->
+  <!--<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>-->
 </head>
 
 <body>
@@ -101,7 +101,7 @@
             <a href="#"><i class="fa fa-table fa-fw"></i> Admin<span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
               <li>
-                <a href="/">Edit columns</a>
+                <a href="/admin">Edit columns</a>
               </li>
             </ul>
             <!-- /.nav-second-level -->
@@ -117,6 +117,21 @@
               </li>
               <li>
                 <a href="/api/analytics/1">Analytics example</a>
+              </li>
+            </ul>
+            <!-- /.nav-second-level -->
+          </li>
+          <li>
+            <a href="#"><i class="fa fa-gears fa-fw"></i> Threat example<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
+              <li>
+                <a href="/threat/daviaardell.org">Show</a>
+              </li>
+              <li>
+                <a href="/edit-threat/daviaardell.org">Edit</a>
+              </li>
+              <li>
+                <a href="/edit-threat/daviaardell.org">Delete</a>
               </li>
             </ul>
             <!-- /.nav-second-level -->
