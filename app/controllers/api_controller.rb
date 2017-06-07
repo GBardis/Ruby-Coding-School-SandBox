@@ -60,7 +60,6 @@ class ApiController < ApplicationController
   end
 
   def search2
-
     #@data = elastic_search params[:term], page_size, page_num, exact_search, order_by, order_by_direction
     draw = params[:draw]
     recordsTotal = 57 #@data['hits']['total']

@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
+  <base href="/">
 
   <title>Crypteia Threat Portal</title>
 
@@ -186,13 +187,23 @@
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable( {
-            'processing' : true,
+    $(document).ready(function () {
+        $('#dataTables-example').DataTable({
+            'processing': true,
             "serverSide": true,
-            "ajax": "/api/search2"
-        } );
-    } );
+            "ajax": {
+                url: '/api/search2',
+                dataFilter: function (data) {
+                    var json = jQuery.parseJSON(data);
+                    json.recordsTotal = json.total;
+                    json.recordsFiltered = json.total;
+                    json.data = json.list;
+
+                    return JSON.stringify(json); // return JSON string
+                }
+            }
+        });
+    });
 </script>
 
 </body>

@@ -15,6 +15,6 @@
 /config/locales/database.yml
 /node_modules
 /yarn-error.log
-
+.secrets/
 .byebug_history
 .idea/

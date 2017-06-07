@@ -30,4 +30,37 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  helpers:
+    label:
+      search:
+        global_filter_time: 'Global Filter Time'
+        logstash_backend: 'Logstash Backend'
+        logstash_febe_latency_sec: 'Logstash Febe Latency Sec'
+        logstash_frontend: 'Logstash Frontend'
+        raw_message_bytesize: 'Raw Message Bytesize'
+        vendor_filter_time: 'Vendor Filter Time'
+        id: 'Id'
+        srcevent: 'Source Event'
+        timestamp: 'Timestamp'
+        vendor: 'Vendor'
+        version: 'Version'
+        asn: 'Asn'
+        asn_registry: 'Asn Registry'
+        category: 'Category'
+        category_description: 'Category Description'
+        city: 'City'
+        confidence: 'Confidence'
+        continent_code: 'Continent Code'
+        country: 'Country'
+        country_code: 'Country Code'
+        host: 'Host'
+        location: 'Location'
+        logid: 'Log Id'
+        message: 'Message'
+        risk: 'Risk'
+        source_ids: 'Source Ids'
+        threat_id: 'Threat Id'
+        threat_tri: 'Threat Rate Index (tri)'
+        threat_type: 'Threat Type'
+        type: 'Type'
+        type_description: 'Type Description'

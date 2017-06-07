@@ -3,50 +3,81 @@
   <h1>THREAT RECORDS</h1>
   <hr>
   <% flash.each do |message_type, message| %>
-    <div class="alert alert-<%= message_type %> alert-dismissible" role="alert" style="padding-left:0!important;"><%= message %>
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    </div>
+      <div class="alert alert-<%= message_type %> alert-dismissible" role="alert" style="padding-left:0!important;"><%= message %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+      </div>
   <% end %>
   <%= form_tag search_index_path, method: 'get' do %>
-    <%= label_tag :query %>
-    <%= text_field_tag :q, params[:q] %>
-    <%= submit_tag :search %>
+      <%= label_tag :query %>
+      <%= text_field_tag :q, params[:q] %>
+      <%= submit_tag :search %>
   <% end %>
 </div>
 <div class="container">
   <div class="table-responsive">
     <table class="table table-bordered table-stripped table-hover">
       <thead>
-        <tr>
-          <th>Threat Record as a Key</th>
-          <th>Source(asn_reg)</th>
-          <th>Threat Record Indicator (TRI)</th>
-          <th>Risk</th>
-          <th>Country</th>
-          <th>ASN</th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
+      <tr>
+        <th>Threat Record as a Key</th>
+        <th>Source(asn_reg)</th>
+        <th>Threat Record Indicator (TRI)</th>
+        <th>Risk</th>
+        <th>Country</th>
+        <th>ASN</th>
+        <% if current_user && current_user.is_admin %>
+            <th></th>
+            <th></th>
+        <% end %>
+      </tr>
       </thead>
       <tbody>
-        <%if @Search%>
-          <%@Search.each do |result|%>
+      <% if @Search %>
+          <% @Search.each do |result| %>
+              <tr onclick="window.location = '<%= url_for search_path(result) %>'">
+                <td><%= result.threat_id %> </td>
+                <td><%= result.asn_registry %> </td>
+                <td>
+                  <% if result.nil? %>
+                      <%= number_to_percentage(result.threat_tri*100) %>
+                  <% end %>
+                </td>
+                <td><%= result.risk %> </td>
+                <td><%= result.country %> </td>
+                <td><%= result.asn %> </td>
+                <% if current_user && current_user.is_admin %>
+                    <td onclick="this.stopPropagation();"><%= link_to "Edit", edit_search_path(result), class: "btn btn-warning" %></td>
+                    <td onclick="this.stopPropagation();"><%= link_to "Delete", edit_search_path(result), class: "btn btn-danger" %></td>
+                <% end %>
+
+              </tr>
+          <% end %>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% if @Search && @Search.length > 0 %>
+    <div class="table-responsive">
+      <table class="table table-bordered table-stripped table-hover">
+        <thead>
+        <tr>
+          <% @Search.first.attributes.each do |attr_name, attr_value| %>
+              <th><%= attr_name %></td>
+          <% end %>
+        </tr>
+        </thead>
+        <tbody>
+        <% @Search.each do |result| %>
             <tr>
-              <td><%= result.threat_id%> </td>
-              <td><%= result.asn_registry%> </td>
-              <% if result.nil? %>
-                <td><%= number_to_percentage(result.threat_tri*100)%> </td>
-              <%end%>
-              <td><%= result.risk%> </td>
-              <td><%= result.country%> </td>
-              <td><%= result.asn%> </td>
-              <td><%= link_to "Edit",edit_search_path(result), class: "btn btn-primary" %></td>
-            </td>
-          </tr>
-        <%end%>
-      <%end%>
-    </tbody>
-  </table>
-</div>
-</div>
+              <% result.attributes.each do |attr_name, attr_value| %>
+                  <td class="<%= attr_name %>"><%= attr_value %></td>
+              <% end %>
+            </tr>
+        <% end %>
+
+        </tbody>
+      </table>
+    </div>
+<% end %>
