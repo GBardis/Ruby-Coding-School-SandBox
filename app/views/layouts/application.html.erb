@@ -186,11 +186,13 @@
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
-    $(document).ready(function () {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
-    });
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable( {
+            'processing' : true,
+            "serverSide": true,
+            "ajax": "/api/search2"
+        } );
+    } );
 </script>
 
 </body>

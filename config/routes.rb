@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   # Index controller
   #  term, page_size, page_num, exact_search = true, order_by = '', order_by_direction
   # get '/search/:term', to: 'index#search'
+  get '/oldindex', to: 'index#search'
 
   # Threat controller
   get '/threat/:id', to: 'threat#show'
@@ -36,6 +37,8 @@ Rails.application.routes.draw do
       '(/order_by_direction/:order_by_direction)', to: 'api#search', :constraints => {:term => /[^\/]+/}
   get '/api/threat/:id', to: 'api#threat', :constraints => {:term => /[^\/]+/}
   get '/api/analytics/:stats_type', to: 'api#analytics'
+
+  get '/api/search2/', to: 'api#search2'
 
   # test controllers
   get 'elastic' => 'elastic#elastic'
