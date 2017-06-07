@@ -7,4 +7,5 @@ Rails.application.routes.draw do
     collection { get :search }
   end
   put '/search' => 'search#update', as: :search_update
+
 end

@@ -11,7 +11,7 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
-/public/*
+/public/elasticsearch_cert.pem
 /config/locales/database.yml
 /node_modules
 /yarn-error.log

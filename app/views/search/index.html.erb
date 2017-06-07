@@ -29,23 +29,21 @@
       <tbody>
         <%if @Search%>
           <%@Search.each do |result|%>
-            <%= form_tag search_update_path, method: :put, html: { style: "display:inline;" } do  %>
-              <tr>
-                <td><%= text_field_tag :threat_id,result.threat_id,placeholder: "threat_id", class: "form-control"%> </td>
-                <td><%= text_field_tag :asn_registry,result.asn_registry ,placeholder: "asn_registry", class: "form-control"%> </td>
-                <td><%= text_field_tag :threat_tri,result.threat_tri,placeholder: "threat_tri", class: "form-control"%> </td>
-                <td><%=text_field_tag :risk, result.risk,placeholder: "risk", class: "form-control"%> </td>
-                <td><%=text_field_tag :country, result.country,placeholder: "country", class: "form-control"%> </td>
-                <td><%= text_field_tag :asn ,result.asn,placeholder: "asn", class: "form-control"%> </td>
-                <td><%= hidden_field_tag :id ,result.id%> </td>
-                <td><%= submit_tag "Edit", class: "btn btn-primary" %></td>
-                <td><%= link_to 'Delete' , search_path(result) , method: :delete, class: "btn btn-danger" %>
-                </td>
-              </tr>
-            <%end%>
-          <%end%>
+            <tr>
+              <td><%= result.threat_id%> </td>
+              <td><%= result.asn_registry%> </td>
+              <% if result.nil? %>
+                <td><%= number_to_percentage(result.threat_tri*100)%> </td>
+              <%end%>
+              <td><%= result.risk%> </td>
+              <td><%= result.country%> </td>
+              <td><%= result.asn%> </td>
+              <td><%= link_to "Edit",edit_search_path(result), class: "btn btn-primary" %></td>
+            </td>
+          </tr>
         <%end%>
-      </tbody>
-    </table>
-  </div>
+      <%end%>
+    </tbody>
+  </table>
+</div>
 </div>
