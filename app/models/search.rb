@@ -1,12 +1,21 @@
+# require 'elasticsearch-persistence'
 class Search < ApplicationRecord
-  # require 'elasticsearch-persistence'
   include Elasticsearch::Persistence::Model
-  # include Elasticsearch::Model::Callbacks
   include Elasticsearch::DSL
+  # include ActiveRecord::Base
+  # include Elasticsearch::Model::Callbacks
 
-  index_name 'threatdb_2017.06.02'
+  index_name 'threatdb_2017.06.09'
   document_type ''
 
+  attr_accessor :_index, :raw_message_bytesize, :logstash_frontend, :vendor_filter_time, :global_filter_time, # amp vars
+                :logstash_febe_latency_sec, :logstash_backend, # amp vars
+                :id, :version, :timestamp, :srcevent, :vendor, # at vars
+                :threat_id, :host, :confidence, :confidence_float, :threat_tri, :threat_tri_float, :risk, :risk_float,
+                :type, :category, :category_description, :threat_type, :type_description,
+                :location, :country_code, :country, :continent_code, :city, :source_ids
+
+  attribute :_index, String, mapping: {fields: {'index': {type: 'string'}}}
   attribute :global_filter_time, Bignum, mapping: {fields: {'&global_filter_time': {type: 'long'}}}
   attribute :logstash_backend, String, mapping: {fields: {'logstash_backend': {type: 'string'}}}
   attribute :logstash_febe_latency_sec, String, mapping: {fields: {'&logstash_febe_latency_sec': {type: 'string'}}}
@@ -50,7 +59,6 @@ class Search < ApplicationRecord
   attribute :threat_type, String, mapping: {fields: {threat_type: {type: 'string'}}}
   attribute :type, String, mapping: {fields: {type: {type: 'string'}}}
   attribute :type_description, String, mapping: {fields: {type_description: {type: 'string'}}}
-  attribute :index, String, mapping: {fields: {index: {type: 'string'}}}
 
   #byebug
 end

@@ -38,7 +38,8 @@ Rails.application.routes.draw do
   get '/api/threat/:id', to: 'api#threat', :constraints => {:term => /[^\/]+/}
   get '/api/analytics/:stats_type', to: 'api#analytics'
 
-  get '/api/search2/', to: 'api#search2'
+  get '/api/search_api/', to: 'search#search_api'
+  post '/api/search_api/', to: 'search#search_api'
 
   # test controllers
   get 'elastic' => 'elastic#elastic'

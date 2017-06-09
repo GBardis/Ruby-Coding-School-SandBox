@@ -37,8 +37,8 @@
   <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-  <!--<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>-->
-  <!--<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>-->
+  <%# <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%# <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
 
 <body>
@@ -189,19 +189,30 @@
 <script>
     $(document).ready(function () {
         $('#dataTables-example').DataTable({
-            'processing': true,
+            "processing": true,
             "serverSide": true,
+            "smart": false,
+            "searchDelay": 350,
             "ajax": {
-                url: '/api/search2',
+                type: 'POST',
+                url: '/api/search_api/',
+                data: function (data) {
+                    var new_data = {
+                        draw: data.draw,
+                        start: data.start,
+                        length: data.length,
+                        term: data.search['value'],
+                        regex: data.search['regex'],
+                        order_column_name: data.columns[data.order[0]['column']]['name'],
+                        order_dir: data.order[0]['dir']
+                    }
+                    return new_data;
+                },
                 dataFilter: function (data) {
-                    var json = jQuery.parseJSON(data);
-                    json.recordsTotal = json.total;
-                    json.recordsFiltered = json.total;
-                    json.data = json.list;
-
-                    return JSON.stringify(json); // return JSON string
+                    return data;
                 }
             }
+
         });
     });
 </script>

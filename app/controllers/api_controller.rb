@@ -1,7 +1,11 @@
 class ApiController < ApplicationController
+  require 'elasticsearch/persistence/model'
+  require 'elasticsearch/dsl'
+
+
   @@client = Elasticsearch::Client.new url: 'https://kteam:draewjUgbksIjcv19epwhpkcpnzieqkn@159.8.53.13:443',
                                        transport_options: {ssl: {ca_file: 'public/elasticsearch_cert.pem'}}
-  @@index_name = 'threatdb_2017.06.02'
+  @@index_name = 'threatdb_2017.06.09'
 
 
   # http://localhost:3000/api/{term}/page_size/{page_size}/page_num/{page_num}/exact_search/{exact_search}/order_by/{order_by}/order_by_direction/{order_by_direction}
@@ -58,17 +62,6 @@ class ApiController < ApplicationController
 
     return @@client.search index: @@index_name, body: body
   end
-
-  def search2
-    #@data = elastic_search params[:term], page_size, page_num, exact_search, order_by, order_by_direction
-    draw = params[:draw]
-    recordsTotal = 57 #@data['hits']['total']
-    recordsFiltered = 11 #@data['hits']['total']
-    data = [['Bradley', 'Greer', 'Software Engineer', 'London', '13th Oct 12', '$132,000', 'edit', 'delete' ]]
-    render json: {'draw': draw, 'recordsTotal': recordsTotal, 'recordsFiltered': recordsFiltered, 'data': data}
-  end
-
-
 end
 
 
