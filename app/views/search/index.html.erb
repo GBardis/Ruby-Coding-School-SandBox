@@ -23,14 +23,14 @@
               <% puts '------------------------------------------------------------------' %>
               <% puts edit_search_path(@Search.first) %>
               <% puts '------------------------------------------------------------------' %>
-              <% @Search.first.attributes.each do |name, value | %>
+              <% @Search.first.attributes.each do |name, value| %>
                   <% next if name == :created_at || name == :updated_at %>
                   <% next if current_user && !current_user.is_admin && @SkipColumns.include?(name) %>
                   <th class="<%= name %>" data-name="<%= name %>" data-data="<%= name %>" data-orderable="<%= name != :threat_id %>" ><%= t(name) %></th>
               <% end %>
               <% if current_user && current_user.is_admin %>
-                  <th class="edit-button" data-data="edit-button" data-name="edit-button" data-searchable="false"></th>
-                  <th class="delete-button" data-data="delete-button" data-name="delete-button" data-searchable="false"></th>
+                  <th class="edit-button" data-data="edit-button" data-name="edit-button" data-searchable="false" data-orderable="false"></th>
+                  <th class="delete-button" data-data="delete-button" data-name="delete-button" data-searchable="false" data-orderable="false"></th>
               <% end %>
             </tr>
             </thead>

@@ -193,17 +193,19 @@
             "serverSide": true,
             "smart": false,
             "searchDelay": 850,
-            order: [ [ $('#dataTables-example th.threat_tri').index(), 'desc' ] ],
+            "order": [ [ $('#dataTables-example th.threat_tri').index(), 'desc' ] ],
             //"scrollX": true,
             "columnDefs": [
                 {
                   "targets": ["edit-button"],
+                  "className": "edit-button",
                   "data": null,
-                  "defaultContent": "<button>Edit</button>"},
+                  "defaultContent": "<button class='btn btn-success'>Edit</button>"},
                 {
                     "targets": ["delete-button"],
+                    "className": "delete-button",
                     "data": null,
-                    "defaultContent": "<button>Delete</button>"}
+                    "defaultContent": "<button class='btn btn-warning'>Delete</button>"}
                 ],
             "ajax": {
                 type: 'POST',
@@ -227,14 +229,21 @@
 
         });
 
-        $('#dataTables-example tbody').on('click', 'tr', function () {
-            var data = table.row( this ).data();
-            alert( 'You clicked on '+data['threat_id']+'\'s row' );
+        //$('#dataTables-example tbody').on('click', 'tr', function () {
+        //    var data = table.row( this ).data();
+        //    alert( 'You clicked on '+data['threat_id']+'\'s row' );
+        //} );
+
+        $('#dataTables-example tbody').on( 'click', '.edit-button', function (event) {
+            var data = table.row( $(this).parents('tr') ).data();
+            alert( 'You clicked on '+data['threat_id']+'\'s edit' );
+            event.stopPropagation();
         } );
 
-        $('#dataTables-example tbody').on( 'click', 'button', function () {
+        $('#dataTables-example tbody').on( 'click', '.delete-button', function (event) {
             var data = table.row( $(this).parents('tr') ).data();
-            alert( 'You clicked on '+data['threat_id']+'\'s row' );
+            alert( 'You clicked on '+data['threat_id']+'\'s delete' );
+            event.stopPropagation();
         } );
     });
 </script>
