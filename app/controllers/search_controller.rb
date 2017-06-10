@@ -4,7 +4,12 @@ class SearchController < ApplicationController
 
   @@SkipColumns = Set.new [:created_at, :updated_at, :_index, :raw_message_bytesize, :logstash_frontend,
                            :vendor_filter_time, :global_filter_time, :logstash_febe_latency_sec, :logstash_backend,
-                           :id, :version, :timestamp, :srcevent, :vendor]
+                           :id, :version, :timestamp, :srcevent, :vendor,
+
+                           :host, :confidence_float, :threat_tri_float, :risk,
+                           :category, :category_description, :threat_type, :type_description,
+                           :location, :country_code, :continent_code, :city, :source_ids
+                          ]
 
   def index
 =begin

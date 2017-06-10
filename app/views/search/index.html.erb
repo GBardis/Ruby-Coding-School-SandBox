@@ -22,7 +22,7 @@
             <tr>
               <% puts @Search.first.attributes.inspect %>
               <% @Search.first.attributes.each do |name, value | %>
-                  <% next if @SkipColumns.include?(name) %>
+                  <% next if current_user && !current_user.is_admin && @SkipColumns.include?(name) %>
                   <th data-name="<%= name %>" data-data="<%= name %>" data-searchable="false"><%= t(name) %></th>
               <% end %>
               <% if current_user && current_user.is_admin %>
