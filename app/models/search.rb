@@ -10,12 +10,33 @@ class Search < ApplicationRecord
 
   attr_accessor :_index, :raw_message_bytesize, :logstash_frontend, :vendor_filter_time, :global_filter_time, # amp vars
                 :logstash_febe_latency_sec, :logstash_backend, # amp vars
-                :id, :version, :timestamp, :srcevent, :vendor, # at vars
+                :asn, :asn_registry, :id, :version, :timestamp, :srcevent, :vendor, # at vars
                 :threat_id, :host, :confidence, :confidence_float, :threat_tri, :threat_tri_float, :risk, :risk_float,
                 :type, :category, :category_description, :threat_type, :type_description,
-                :location, :country_code, :country, :continent_code, :city, :source_ids
+                :location, :country_code, :country, :continent_code, :city, :source_ids, :logid
 
+  attribute :id, String, mapping: {fields: {'@id': {type: 'string'}}}
   attribute :_index, String, mapping: {fields: {'index': {type: 'string'}}}
+  attribute :threat_id, String, mapping: {fields: {threat_id: {type: 'string'}}}
+  attribute :host, String, mapping: {fields: {host: {type: 'string'}}}
+  attribute :confidence, Float, mapping: {fields: {confidence: {type: 'float'}}}
+  attribute :threat_tri, Float, mapping: {fields: {threat_tri: {type: 'double'}}}
+  attribute :risk, Float, mapping: {fields: {risk: {type: 'float'}}}
+  attribute :type, String, mapping: {fields: {type: {type: 'string'}}}
+  attribute :type_description, String, mapping: {fields: {type_description: {type: 'string'}}}
+  attribute :category, String, mapping: {fields: {category: {type: 'string'}}}
+  attribute :category_description, String, mapping: {fields: {category_description: {type: 'string'}}}
+  attribute :threat_type, String, mapping: {fields: {threat_type: {type: 'string'}}}
+  attribute :country, String, mapping: {fields: {country: {type: 'string'}}}
+  attribute :country_code, String, mapping: {fields: {country_code: {type: 'string'}}}
+  attribute :continent_code, String, mapping: {fields: {continent_code: {type: 'string'}}}
+  attribute :city, String, mapping: {fields: {city: {type: 'string'}}}
+  attribute :location, Numeric, mapping: {fields: {location: {type: 'double'}}}
+  attribute :asn, String, mapping: {fields: {asn: {type: 'string'}}}
+  attribute :asn_registry, String, mapping: {fields: {asn_registry: {type: 'string'}}}
+  attribute :logid, String, mapping: {fields: {logid: {type: 'string'}}}
+  attribute :source_ids, String, mapping: {fields: {source_ids: {type: 'string'}}}
+
   attribute :global_filter_time, Bignum, mapping: {fields: {'&global_filter_time': {type: 'long'}}}
   attribute :logstash_backend, String, mapping: {fields: {'logstash_backend': {type: 'string'}}}
   attribute :logstash_febe_latency_sec, String, mapping: {fields: {'&logstash_febe_latency_sec': {type: 'string'}}}
@@ -39,26 +60,5 @@ class Search < ApplicationRecord
   alias_attribute  :'@timestamp',:timestamp
   alias_attribute  :'@vendor',:vendor
   alias_attribute  :'@version',:version
-
-  attribute :asn, String, mapping: {fields: {asn: {type: 'string'}}}
-  attribute :asn_registry, String, mapping: {fields: {asn_registry: {type: 'string'}}}
-  attribute :category, String, mapping: {fields: {category: {type: 'string'}}}
-  attribute :category_description, String, mapping: {fields: {category_description: {type: 'string'}}}
-  attribute :city, String, mapping: {fields: {city: {type: 'string'}}}
-  attribute :confidence, Float, mapping: {fields: {confidence: {type: 'float'}}}
-  attribute :continent_code, String, mapping: {fields: {continent_code: {type: 'string'}}}
-  attribute :country, String, mapping: {fields: {country: {type: 'string'}}}
-  attribute :country_code, String, mapping: {fields: {country_code: {type: 'string'}}}
-  attribute :host, String, mapping: {fields: {host: {type: 'string'}}}
-  attribute :location, Numeric, mapping: {fields: {location: {type: 'double'}}}
-  attribute :logid, String, mapping: {fields: {logid: {type: 'string'}}}
-  attribute :risk, Float, mapping: {fields: {risk: {type: 'float'}}}
-  attribute :source_ids, String, mapping: {fields: {source_ids: {type: 'string'}}}
-  attribute :threat_id, String, mapping: {fields: {threat_id: {type: 'string'}}}
-  attribute :threat_tri, Float, mapping: {fields: {threat_tri: {type: 'double'}}}
-  attribute :threat_type, String, mapping: {fields: {threat_type: {type: 'string'}}}
-  attribute :type, String, mapping: {fields: {type: {type: 'string'}}}
-  attribute :type_description, String, mapping: {fields: {type_description: {type: 'string'}}}
-
   #byebug
 end

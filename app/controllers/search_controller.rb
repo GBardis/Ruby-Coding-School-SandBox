@@ -23,7 +23,7 @@ class SearchController < ApplicationController
     end
 =end
     @SkipColumns = @@SkipColumns #117.197.209.75
-    @Search = Search.search(query: { match: { '@id': '1fd85a26-fe79-4416-9bc2-9b0d747d00c9' } }, size: 1)
+    @Search = Search.search(query: { match_all: {} }, size: 1)
     # @Search = Search.search(query: { match_all:{} }, size: 1)
 
   end
