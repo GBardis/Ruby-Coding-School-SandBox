@@ -2,7 +2,9 @@ class SearchController < ApplicationController
   require 'elasticsearch/persistence/model'
   require 'elasticsearch/dsl'
 
-  @@SkipColumns = Set.new [:created_at, :updated_at, :logstash_backend]
+  @@SkipColumns = Set.new [:created_at, :updated_at, :_index, :raw_message_bytesize, :logstash_frontend,
+                           :vendor_filter_time, :global_filter_time, :logstash_febe_latency_sec, :logstash_backend,
+                           :id, :version, :timestamp, :srcevent, :vendor]
 
   def index
 =begin
@@ -83,8 +85,8 @@ class SearchController < ApplicationController
     end
 
     # Get search result term: { threat_id: "10.84.205.13" }
-    search = Search.search query: {term: {threat_id: '117.197.209.75'}},
-                           size: page_size #, sort: "[{ #{order_by}: {'order': #{direction}}]"
+    search = Search.search query: {term: {country: term}},
+                           size: page_size, from: page_num, sort: [{ order_by.to_sym => direction }]
 
     # Return data
     render json: {'draw': params[:draw], 'recordsTotal': search.total, 'recordsFiltered': search.total, 'data': search}
