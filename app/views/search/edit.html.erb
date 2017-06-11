@@ -1,34 +1,46 @@
-<div class="container">
-  <div class="table-responsive">
-    <table class="table table-bordered table-stripped table-hover">
-      <thead>
-        <tr>
-          <th>Threat Record as a Key</th>
-          <th>Source(asn_reg)</th>
-          <th>Threat Record Indicator (TRI)</th>
-          <th>Risk</th>
-          <th>Country</th>
-          <th>ASN</th>
-        </tr>
-      </thead>
-      <tbody>
-        <%if @Search%>
-          <%= form_tag search_update_path, method: :put, html: { style: "display:inline;" } do  %>
-            <tr>
-              <td><%= text_field_tag :threat_id,@Search.threat_id,placeholder: "threat_id", class: "form-control"%> </td>
-              <td><%= text_field_tag :asn_registry,@Search.asn_registry ,placeholder: "asn_registry", class: "form-control"%> </td>
-              <td><%= text_field_tag :threat_tri,@Search.threat_tri,placeholder: "threat_tri", class: "form-control"%> </td>
-              <td><%=text_field_tag :risk, @Search.risk,placeholder: "risk", class: "form-control"%> </td>
-              <td><%=text_field_tag :country, @Search.country,placeholder: "country", class: "form-control"%> </td>
-              <td><%= text_field_tag :asn ,@Search.asn,placeholder: "asn", class: "form-control"%> </td>
-              <td><%= hidden_field_tag :id ,@Search.id%> </td>
-              <td><%= submit_tag "Edit", class: "btn btn-primary" %></td>
-              <td><%= link_to 'Delete' , search_path(@Search) , method: :delete, class: "btn btn-danger" %>
-              </td>
-            </tr>
-          <%end%>
-        <%end%>
-      </tbody>
-    </table>
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">Edit threat</h1>
   </div>
+  <!-- /.col-lg-12 -->
 </div>
+<!-- /.row -->
+<div class="row">
+  <% flash.each do |message_type, message| %>
+      <div class="alert alert-<%= message_type %> alert-dismissible" role="alert" style="padding-left:0!important;"><%= message %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+      </div>
+  <% end %>
+</div>
+<!-- /.row -->
+
+<div class="row">
+  <div class="col-lg-6">
+      <%= form_tag search_update_path, { method: 'put', class: 'form-horizontal' }  do %>
+          <% @Search.attributes.each do |name, value| %>
+            <% next if @SkipColumns.include?(name) %>
+              <div class="form-group">
+                <%= label_tag name, nil, class: 'col-sm-2 control-label'%>
+                <div class="col-sm-10">
+                  <%= text_field_tag name, value, class: 'form-control' %>
+                </div>
+              </div>
+              <!-- /.form-group -->
+          <% end %>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <%= submit_tag 'Submit', class: 'btn btn-primary' %>
+            </div>
+          </div>
+          <!-- /.form-group -->
+      <% end %>
+      <!-- /form -->
+  </div>
+  <!-- /.col-lg-6 -->
+  <div class="col-lg-6">
+  </div>
+  <!-- /.col-lg-6 -->
+</div>
+<!-- /.row -->
+

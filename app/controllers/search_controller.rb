@@ -4,7 +4,7 @@ class SearchController < ApplicationController
 
   @@SkipColumns = Set.new [:created_at, :updated_at, :_index, :raw_message_bytesize, :logstash_frontend,
                            :vendor_filter_time, :global_filter_time, :logstash_febe_latency_sec, :logstash_backend,
-                           :id, :version, :timestamp, :srcevent, :vendor,
+                           :version, :timestamp, :srcevent, :vendor,
 
                            :host, :confidence_float, :threat_tri_float, :risk,
                            :category, :category_description, :threat_type, :type_description,
@@ -25,7 +25,8 @@ class SearchController < ApplicationController
     @SkipColumns = @@SkipColumns #117.197.209.75
     @Search = Search.search(query: { match_all: {} }, size: 1)
     # @Search = Search.search(query: { match_all:{} }, size: 1)
-
+    # @cols = Search.attribute_names
+# byebug
   end
 
   def show
@@ -33,6 +34,7 @@ class SearchController < ApplicationController
   end
 
   def edit
+    @SkipColumns = @@SkipColumns
     @Search = Search.search(query: {match: {_id: params[:id]}}).first
   end
 
@@ -40,16 +42,13 @@ class SearchController < ApplicationController
     @Search = Search.search(query: {match: {_id: params[:id]}}).first
     @Search.update_attributes(
         threat_id: params[:threat_id],
-        asn_registry: params[:asn_registry],
-        threat_tri: params[:threat_tri].to_f,
-        risk: params[:risk].to_f,
-        country: params[:country],
-        asn: params[:asn]
+        threat_tri: params[:threat_tri].to_f
     )
 
     sleep 3
     flash[:success] = 'Record successfully updated!'
-    redirect_to search_index_path
+    # redirect_to search_index_path
+    redirect_to edit_search_url(@Search)
   end
 
   def destroy
