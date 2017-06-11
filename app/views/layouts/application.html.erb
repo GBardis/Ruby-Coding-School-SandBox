@@ -225,9 +225,28 @@
                 dataFilter: function (data) {
                     return data;
                 }
+            },
+            initComplete : function() {
+                var input = $('.dataTables_filter input').unbind(),
+                    self = this.api(),
+                    $searchButton = $('<button type="button" class="btn btn-outline btn-primary btn-circle"><i class="fa fa-search"></i></button>')
+                        .click(function() {
+                            self.search(input.val()).draw();
+                        }),
+                    $clearButton = $('<button type="button" class="btn btn-outline btn-warning btn-circle"><i class="fa fa-times"></i></button>')
+                        .click(function() {
+                            input.val('');
+                            $searchButton.click();
+                        });
+                input.bind('keyup', function(e) {
+                    if(e.keyCode == 13) {
+                        self.search(input.val()).draw();
+                    }
+                });
+                $('.dataTables_filter').append($searchButton, $clearButton);
             }
-
         });
+
 
         //$('#dataTables-example tbody').on('click', 'tr', function () {
         //    var data = table.row( this ).data();
