@@ -1,0 +1,36 @@
+<div class="container"%>
+  <div class="container-fluid">
+    <h1>Cpypteia App</h1>
+    <br />
+    <div class="row">
+      <div class="col-md-2">
+        <h3>Index</h3>
+      </div>
+      <div class="col-md-2">
+        <h3>Country</h3>
+      </div>
+      <div class="col-md-3">
+        <h3>Asn Registry</h3>
+      </div>
+      <% if !user_signed_in?%>
+        <div class="col-md-3">
+          <%= link_to 'Sign up' ,new_user_registration_path%>
+        </div>
+      <%end%>
+      <div class="col-md-3">
+        <%= link_to 'Sign in' , new_user_session_path%>
+      </div>
+      <div class="col-md-3">
+        <%= link_to 'Logout' ,destroy_user_session_path %>
+      </div>
+    </div>
+    <hr />
+    <%@obj.hits.hits.each do |a|%>
+      <div class="row">
+        <div class="col-md-2"><%=a._index%></div>
+        <div class="col-md-2"><%=a._source.country%></div>
+        <div class="col-md-4"><%=a._source.asn_registry%></div>
+        <div class="col-md-4"><%=a._source.threat_tri%></div>
+      </div>
+    <%end%>
+  </div>

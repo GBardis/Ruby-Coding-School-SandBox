@@ -1,19 +1,4 @@
 <div class="container">
-  <p id="notice"><%= notice %></p>
-  <h1>THREAT RECORDS</h1>
-  <hr>
-  <% flash.each do |message_type, message| %>
-    <div class="alert alert-<%= message_type %> alert-dismissible" role="alert" style="padding-left:0!important;"><%= message %>
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    </div>
-  <% end %>
-  <%= form_tag search_index_path, method: 'get' do %>
-    <%= label_tag :query %>
-    <%= text_field_tag :q, params[:q] %>
-    <%= submit_tag :search %>
-  <% end %>
-</div>
-<div class="container">
   <div class="table-responsive">
     <table class="table table-bordered table-stripped table-hover">
       <thead>
