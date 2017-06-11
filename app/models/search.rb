@@ -8,12 +8,6 @@ class Search < ApplicationRecord
   index_name 'threatdb_2017.06.09'
   document_type ''
 
-  attr_accessor :_index, :raw_message_bytesize, :logstash_frontend, :vendor_filter_time, :global_filter_time, # amp vars
-                :logstash_febe_latency_sec, :logstash_backend, # amp vars
-                :asn, :asn_registry, :id, :version, :timestamp, :srcevent, :vendor, # at vars
-                :threat_id, :host, :confidence, :confidence_float, :threat_tri, :threat_tri_float, :risk, :risk_float,
-                :type, :category, :category_description, :threat_type, :type_description,
-                :location, :country_code, :country, :continent_code, :city, :source_ids, :logid
 
   attribute :id, String, mapping: {fields: {'@id': {type: 'string'}}}
   attribute :_index, String, mapping: {fields: {'index': {type: 'string'}}}
@@ -60,5 +54,4 @@ class Search < ApplicationRecord
   alias_attribute  :'@timestamp',:timestamp
   alias_attribute  :'@vendor',:vendor
   alias_attribute  :'@version',:version
-  #byebug
 end
