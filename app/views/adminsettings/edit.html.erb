@@ -1,0 +1,50 @@
+<div class="container">
+  <ul>
+    <div class="row">
+      <%=form_for @setting do |setting|%>
+        <div class="col-md-6">
+        </div>
+        <div>
+          <%=setting.fields_for :preferences  do |p|%>
+            <li>
+              <%=p.label :index%>
+              <%=p.check_box :index , checked: @hash.index_v.to_bool %>
+            </li>
+            <li>
+              <%=p.label :country%>
+              <%=p.check_box :country%>
+            </li>
+            <li>
+              <%=p.label :country_code%>
+              <%=p.check_box :country_code%>
+            </li>
+            <li>
+              <%=p.label :threat_id%>
+              <%=p.check_box :threat_id%>
+            </li>
+            <li>
+              <%=p.label :host%>
+              <%=p.check_box :host%>
+            </li>
+            <li>
+              <%=p.label :threat_tri%>
+              <%=p.check_box :threat_tri%>
+            </li>
+            <li>
+              <%=p.label :risk%>
+              <%=p.check_box :risk%>
+            </li>
+            <li>
+              <%=p.label :asn%>
+              <%=p.check_box :asn%>
+            </li>
+            <li>
+              <%=p.label :asn_registry%>
+              <%=p.check_box :asn_registry%>
+            </li>
+          <%end%>
+        </div>
+        <%=setting.submit nil , class: "btn-success"%>
+      <%end%>
+    </ul>
+  </div>

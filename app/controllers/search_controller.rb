@@ -2,29 +2,39 @@ class SearchController < ApplicationController
   require 'elasticsearch/persistence/model'
   require 'elasticsearch/dsl'
 
-  @@SkipColumns = Set.new [:created_at, :updated_at, :_index, :raw_message_bytesize, :logstash_frontend,
-                           :vendor_filter_time, :global_filter_time, :logstash_febe_latency_sec, :logstash_backend,
-                           :id, :version, :timestamp, :srcevent, :vendor,
-
-                           :host, :confidence_float, :threat_tri_float, :risk,
-                           :category, :category_description, :threat_type, :type_description,
-                           :location, :country_code, :continent_code, :city, :source_ids
-                          ]
+  # @@SkipColumns = Set.new [:created_at, :updated_at, :_index, :raw_message_bytesize, :logstash_frontend,
+  #   :vendor_filter_time, :global_filter_time, :logstash_febe_latency_sec, :logstash_backend,
+  #   :id, :version, :timestamp, :srcevent, :vendor,
+  #
+  #   :host, :confidence_float, :threat_tri_float, :risk,
+  #   :category, :category_description, :threat_type, :type_description,
+  #   :location, :country_code, :continent_code, :city, :source_ids
+  # ]
 
   def index
-=begin
-    if !params[:q]
-      #@Search = Search.all(query: { match: { threat_id: '41.222.118.2'}})
-      # @Search = Search.all(query: { match: {country_code: 'eth'}})
-      @Search = Search.search(query: { match: { '@id': '1fd85a26-fe79-4416-9bc2-9b0d747d00c9' } }, size: 10)
-      # @Search = Search.search(query: { match: {country_code: 'eth'}}, size: 10)
-    else
-      @Search = Search.all(query: { match: {country_code: params[:q]}}, size: 10) unless params[:q].nil?
-    end
-=end
-    @SkipColumns = @@SkipColumns #117.197.209.75
+
+    # if !params[:q]
+    #   #@Search = Search.all(query: { match: { threat_id: '41.222.118.2'}})
+    #   # @Search = Search.all(query: { match: {country_code: 'eth'}})
+    #   @Search = Search.search(query: { match: { '@id': '1fd85a26-fe79-4416-9bc2-9b0d747d00c9' } }, size: 10)
+    #   # @Search = Search.search(query: { match: {country_code: 'eth'}}, size: 10)
+    # else
+    #   @Search = Search.all(query: { match: {country_code: params[:q]}}, size: 10) unless params[:q].nil?
+    # end
+
+    @SkipColumns = Set.new
     @Search = Search.search(query: { match_all: {} }, size: 1)
     # @Search = Search.search(query: { match_all:{} }, size: 1)
+    #byebug
+    @setting = Hashie::Mash.new Adminsetting.first.preferences
+    Adminsetting.first.preferences.each do |name,value|
+      puts value
+      #if value == 0
+      @SkipColumns.add(name)
+      #end
+    end
+    #  byebug
+    #@single = Adminsetting.first
 
   end
 
@@ -39,12 +49,12 @@ class SearchController < ApplicationController
   def update
     @Search = Search.search(query: {match: {_id: params[:id]}}).first
     @Search.update_attributes(
-        threat_id: params[:threat_id],
-        asn_registry: params[:asn_registry],
-        threat_tri: params[:threat_tri].to_f,
-        risk: params[:risk].to_f,
-        country: params[:country],
-        asn: params[:asn]
+      threat_id: params[:threat_id],
+      asn_registry: params[:asn_registry],
+      threat_tri: params[:threat_tri].to_f,
+      risk: params[:risk].to_f,
+      country: params[:country],
+      asn: params[:asn]
     )
 
     sleep 3
@@ -91,7 +101,7 @@ class SearchController < ApplicationController
 
     # Get search result term: { threat_id: "10.84.205.13" }
     search = Search.search query: {term: {country: term}},
-                           size: page_size, from: page_num, sort: [{ order_by.to_sym => direction }]
+    size: page_size, from: page_num, sort: [{ order_by.to_sym => direction }]
 
     # Return data
     render json: {'draw': params[:draw], 'recordsTotal': search.total, 'recordsFiltered': search.total, 'data': search}
