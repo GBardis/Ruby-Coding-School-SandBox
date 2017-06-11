@@ -432,3 +432,10 @@ table.dataTable thead .sorting:after {
     border-left-width: 0;
   }
 }
+
+.dataTables_wrapper > div:nth-child(2){
+  overflow: scroll;
+  max-height: 600px;
+
+}
+

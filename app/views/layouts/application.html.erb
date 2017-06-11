@@ -23,6 +23,7 @@
 
   <!-- DataTables Responsive CSS -->
   <link href="../vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+  <link href="../vendor/datatables-plugins/fixedHeader.dataTables.min.css" rel="stylesheet">
 
   <!-- Custom CSS -->
   <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
@@ -166,6 +167,7 @@
 <!-- DataTables JavaScript -->
 <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="../vendor/datatables-plugins/dataTables.fixedHeader.min.js"></script>
 <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
 
 <!-- Flot Charts JavaScript -->
@@ -195,8 +197,11 @@
             "serverSide": true,
             "smart": false,
             "searchDelay": 850,
-            "order": [[ triIndex, 'desc']],
+            "order": [[triIndex, 'desc']],
             //"scrollX": true,
+            //"scrollY":        "600px",
+            //"scrollCollapse": true,
+            //"fixedHeader": true,
             "columnDefs": [
                 {
                     "targets": ["edit-button"],
@@ -254,12 +259,15 @@
 
         $('#dataTables-example tbody').on('click', 'tr', function () {
             var data = table.row(this).data();
-            alert('You clicked on ' + data['threat_id'] + '\'s row');
+            //alert('You clicked on ' + data['threat_id'] + '\'s row');
+            window.location.href = '/search/' + data['id'];
         });
 
+        <% if current_user && current_user.is_admin %>
         $('#dataTables-example tbody').on('click', '.edit-button', function (event) {
             var data = table.row($(this).parents('tr')).data();
-            alert('You clicked on ' + data['threat_id'] + '\'s edit');
+            //alert('You clicked on ' + data['threat_id'] + '\'s edit');
+            window.location.href = '/search/' + data['id']+'/edit';
             event.stopPropagation();
         });
 
@@ -268,6 +276,7 @@
             alert('You clicked on ' + data['threat_id'] + '\'s delete');
             event.stopPropagation();
         });
+        <% end %>
     });
 </script>
 
