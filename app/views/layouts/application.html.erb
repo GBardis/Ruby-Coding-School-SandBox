@@ -129,7 +129,7 @@
                 <a href="/threat/daviaardell.org">Show</a>
               </li>
               <li>
-                <a href="/edit-threat/daviaardell.org">Edit</a>
+                <a href="/search/a3868e80-33a9-4593-b99f-c79a0c4d1cbd/edit">Edit</a>
               </li>
               <li>
                 <a href="/edit-threat/daviaardell.org">Delete</a>
@@ -188,25 +188,29 @@
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
     $(document).ready(function () {
+        var triIndex = $('#dataTables-example th.threat_tri').index();
+        if (triIndex < 0) triIndex = 1;
         var table = $('#dataTables-example').DataTable({
             "processing": true,
             "serverSide": true,
             "smart": false,
             "searchDelay": 850,
-            "order": [ [ $('#dataTables-example th.threat_tri').index(), 'desc' ] ],
+            "order": [[ triIndex, 'desc']],
             //"scrollX": true,
             "columnDefs": [
                 {
-                  "targets": ["edit-button"],
-                  "className": "edit-button",
-                  "data": null,
-                  "defaultContent": "<button class='btn btn-success'>Edit</button>"},
+                    "targets": ["edit-button"],
+                    "className": "edit-button",
+                    "data": null,
+                    "defaultContent": "<button class='btn btn-success'>Edit</button>"
+                },
                 {
                     "targets": ["delete-button"],
                     "className": "delete-button",
                     "data": null,
-                    "defaultContent": "<button class='btn btn-warning'>Delete</button>"}
-                ],
+                    "defaultContent": "<button class='btn btn-warning'>Delete</button>"
+                }
+            ],
             "ajax": {
                 type: 'POST',
                 url: '/api/search_api/',
@@ -226,20 +230,20 @@
                     return data;
                 }
             },
-            initComplete : function() {
+            initComplete: function () {
                 var input = $('.dataTables_filter input').unbind(),
                     self = this.api(),
                     $searchButton = $('<button type="button" class="btn btn-outline btn-primary btn-circle"><i class="fa fa-search"></i></button>')
-                        .click(function() {
+                        .click(function () {
                             self.search(input.val()).draw();
                         }),
                     $clearButton = $('<button type="button" class="btn btn-outline btn-warning btn-circle"><i class="fa fa-times"></i></button>')
-                        .click(function() {
+                        .click(function () {
                             input.val('');
                             $searchButton.click();
                         });
-                input.bind('keyup', function(e) {
-                    if(e.keyCode == 13) {
+                input.bind('keyup', function (e) {
+                    if (e.keyCode == 13) {
                         self.search(input.val()).draw();
                     }
                 });
@@ -249,21 +253,21 @@
 
 
         $('#dataTables-example tbody').on('click', 'tr', function () {
-            var data = table.row( this ).data();
-            alert( 'You clicked on '+data['threat_id']+'\'s row' );
-        } );
+            var data = table.row(this).data();
+            alert('You clicked on ' + data['threat_id'] + '\'s row');
+        });
 
-        $('#dataTables-example tbody').on( 'click', '.edit-button', function (event) {
-            var data = table.row( $(this).parents('tr') ).data();
-            alert( 'You clicked on '+data['threat_id']+'\'s edit' );
+        $('#dataTables-example tbody').on('click', '.edit-button', function (event) {
+            var data = table.row($(this).parents('tr')).data();
+            alert('You clicked on ' + data['threat_id'] + '\'s edit');
             event.stopPropagation();
-        } );
+        });
 
-        $('#dataTables-example tbody').on( 'click', '.delete-button', function (event) {
-            var data = table.row( $(this).parents('tr') ).data();
-            alert( 'You clicked on '+data['threat_id']+'\'s delete' );
+        $('#dataTables-example tbody').on('click', '.delete-button', function (event) {
+            var data = table.row($(this).parents('tr')).data();
+            alert('You clicked on ' + data['threat_id'] + '\'s delete');
             event.stopPropagation();
-        } );
+        });
     });
 </script>
 

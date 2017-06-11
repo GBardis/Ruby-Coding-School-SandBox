@@ -22,11 +22,11 @@ class SearchController < ApplicationController
     # @Search = Search.search(query: { match_all:{} }, size: 1)
     #byebug
     Adminsetting.first.preferences.each do |name, value|
-      puts value
-      #if value == 0
-      @SkipColumns.add(name)
-      #end
+      if value.to_i == 0
+        @SkipColumns.add(name.to_sym)
+      end
     end
+    puts @SkipColumns.inspect
   end
 
   def show
@@ -34,7 +34,7 @@ class SearchController < ApplicationController
   end
 
   def edit
-    @SkipColumns = @@SkipColumns
+    @SkipColumns = Set.new
     @Search = Search.search(query: {match: {_id: params[:id]}}).first
   end
 
