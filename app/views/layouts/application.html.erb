@@ -248,10 +248,10 @@
         });
 
 
-        //$('#dataTables-example tbody').on('click', 'tr', function () {
-        //    var data = table.row( this ).data();
-        //    alert( 'You clicked on '+data['threat_id']+'\'s row' );
-        //} );
+        $('#dataTables-example tbody').on('click', 'tr', function () {
+            var data = table.row( this ).data();
+            alert( 'You clicked on '+data['threat_id']+'\'s row' );
+        } );
 
         $('#dataTables-example tbody').on( 'click', '.edit-button', function (event) {
             var data = table.row( $(this).parents('tr') ).data();
