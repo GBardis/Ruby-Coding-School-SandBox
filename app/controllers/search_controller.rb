@@ -1,17 +1,9 @@
+require 'elasticsearch/model'
+require 'elasticsearch/persistence/model'
+require 'elasticsearch/dsl'
 class SearchController < ApplicationController
-  require 'elasticsearch/persistence/model'
-  require 'elasticsearch/dsl'
 
   def index
-
-    # if !params[:q]
-    #   #@Search = Search.all(query: { match: { threat_id: '41.222.118.2'}})
-    #   # @Search = Search.all(query: { match: {country_code: 'eth'}})
-    #   @Search = Search.search(query: { match: { '@id': '1fd85a26-fe79-4416-9bc2-9b0d747d00c9' } }, size: 10)
-    #   # @Search = Search.search(query: { match: {country_code: 'eth'}}, size: 10)
-    # else
-    #   @Search = Search.all(query: { match: {country_code: params[:q]}}, size: 10) unless params[:q].nil?
-    #
     if (Adminsetting.count == 0)
       a = Adminsetting.new
       a.save
@@ -19,14 +11,14 @@ class SearchController < ApplicationController
 
     @SkipColumns = Set.new
     @Search = Search.search(query: {match_all: {}}, size: 1)
-    # @Search = Search.search(query: { match_all:{} }, size: 1)
-    #byebug
+
     Adminsetting.first.preferences.each do |name, value|
       if value.to_i == 0
         @SkipColumns.add(name.to_sym)
       end
     end
-    puts @SkipColumns.inspect
+   puts Elasticsearch::Model.client.cat.indices h: 'index', format: 'json', index: 'threatdb*', s: 'index'
+
   end
 
   def show

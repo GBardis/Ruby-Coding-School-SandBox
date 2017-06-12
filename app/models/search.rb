@@ -8,7 +8,6 @@ class Search < ApplicationRecord
   index_name 'threatdb_2017.06.09'
   document_type ''
 
-
   attribute :id, String, mapping: {fields: {'@id': {type: 'string'}}}
   attribute :_index, String, mapping: {fields: {'index': {type: 'string'}}}
   attribute :threat_id, String, mapping: {fields: {threat_id: {type: 'string'}}}
