@@ -5,8 +5,19 @@ class Search < ApplicationRecord
   # include ActiveRecord::Base
   # include Elasticsearch::Model::Callbacks
 
-  index_name 'threatdb_2017.06.09'
-  document_type ''
+  class << self
+    def index=(name)
+      index_name name
+    end
+
+    def indices
+      Elasticsearch::Model.client.cat.indices(h: 'index', format: 'json', index: 'threatdb*', s: 'index')
+          .map {|x| x['index']}.sort.reverse!
+    end
+  end
+
+  index_name indices.first
+  document_type 'threatdb_tri'
 
   attribute :id, String, mapping: {fields: {'@id': {type: 'string'}}}
   attribute :_index, String, mapping: {fields: {'index': {type: 'string'}}}
@@ -36,21 +47,21 @@ class Search < ApplicationRecord
   attribute :logstash_frontend, String, mapping: {fields: {'&logstash_frontend': {type: 'string'}}}
   attribute :raw_message_bytesize, Integer, mapping: {fields: {'&raw_message_bytesize': {type: 'integer'}}}
   attribute :vendor_filter_time, Bignum, mapping: {fields: {'&vendor_filter_time': {type: 'long'}}}
-  alias_attribute  :'&global_filter_time',:global_filter_time
-  alias_attribute  :'&logstash_backend',:logstash_backend
-  alias_attribute  :'&logstash_febe_latency_sec',:logstash_febe_latency_sec
-  alias_attribute  :'&logstash_frontend',:logstash_frontend
-  alias_attribute  :'&raw_message_bytesize',:raw_message_bytesize
-  alias_attribute  :'&vendor_filter_time',:vendor_filter_time
+  alias_attribute :'&global_filter_time', :global_filter_time
+  alias_attribute :'&logstash_backend', :logstash_backend
+  alias_attribute :'&logstash_febe_latency_sec', :logstash_febe_latency_sec
+  alias_attribute :'&logstash_frontend', :logstash_frontend
+  alias_attribute :'&raw_message_bytesize', :raw_message_bytesize
+  alias_attribute :'&vendor_filter_time', :vendor_filter_time
 
   attribute :id, String, mapping: {fields: {'@id': {type: 'string'}}}
   attribute :srcevent, String, mapping: {fields: {'@srcevent': {type: 'string'}}}
-  attribute :timestamp, Date, mapping: {fields: {'@timestamp': {type: 'date', format: 'dateOptionalTime'}}}
+  attribute :timestamp, DateTime, mapping: {fields: {'@timestamp': {type: 'datetime', format: 'dateOptionalTime'}}}
   attribute :vendor, String, mapping: {fields: {'@vendor': {type: 'string'}}}
   attribute :version, Integer, mapping: {fields: {'@version': {type: 'integer'}}}
-  alias_attribute  :'@id',:id
-  alias_attribute  :'@srcevent',:srcevent
-  alias_attribute  :'@timestamp',:timestamp
-  alias_attribute  :'@vendor',:vendor
-  alias_attribute  :'@version',:version
+  alias_attribute :'@id', :id
+  alias_attribute :'@srcevent', :srcevent
+  alias_attribute :'@timestamp', :timestamp
+  alias_attribute :'@vendor', :vendor
+  alias_attribute :'@version', :version
 end

@@ -8,17 +8,13 @@ class SearchController < ApplicationController
       a = Adminsetting.new
       a.save
     end
-
     @SkipColumns = Set.new
     @Search = Search.search(query: {match_all: {}}, size: 1)
-
     Adminsetting.first.preferences.each do |name, value|
       if value.to_i == 0
         @SkipColumns.add(name.to_sym)
       end
     end
-   puts Elasticsearch::Model.client.cat.indices h: 'index', format: 'json', index: 'threatdb*', s: 'index'
-
   end
 
   def show
@@ -32,6 +28,7 @@ class SearchController < ApplicationController
 
   def update
     @Search = Search.search(query: {match: {_id: params[:id]}}).first
+    # TODO: update all attributes
     @Search.update_attributes(
         threat_id: params[:threat_id],
         threat_tri: params[:threat_tri].to_f

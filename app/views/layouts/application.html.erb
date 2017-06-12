@@ -241,11 +241,11 @@
             initComplete: function () {
                 var input = $('.dataTables_filter input').unbind(),
                     self = this.api(),
-                    $searchButton = $('<button type="button" class="btn btn-outline btn-primary btn-circle"><i class="fa fa-search"></i></button>')
+                    $searchButton = $('<button id="search-button" type="button" class="btn btn-outline btn-primary btn-circle"><i class="fa fa-search"></i></button>')
                         .click(function () {
                             self.search(input.val()).draw();
                         }),
-                    $clearButton = $('<button type="button" class="btn btn-outline btn-warning btn-circle"><i class="fa fa-times"></i></button>')
+                    $clearButton = $('<button id="clear-button" type="button" class="btn btn-outline btn-warning btn-circle"><i class="fa fa-times"></i></button>')
                         .click(function () {
                             input.val('');
                             $searchButton.click();
@@ -276,7 +276,17 @@
 
         $('#dataTables-example tbody').on('click', '.delete-button', function (event) {
             var data = table.row($(this).parents('tr')).data();
-            alert('You clicked on ' + data['threat_id'] + '\'s delete');
+            var conf = confirm('Are you sure you want to delete this item?');
+            if(conf) {
+                $.ajax({
+                    url: '/search/' + data['id'],
+                    type: 'DELETE',
+                    success: function(result) {
+                        alert('Threat with id ' + data['threat_id'] + ' was deleted..');
+                        $('#search-button').click();
+                    }
+                });
+            }
             event.stopPropagation();
         });
         <% end %>
