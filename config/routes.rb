@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   get '/api/search/:term(/page_size/:page_size)(/page_num/:page_num)(/exact_search/:exact_search)(/order_by/:order_by)'\
       '(/order_by_direction/:order_by_direction)', to: 'api#search', :constraints => {:term => /[^\/]+/}
   get '/api/threat/:id', to: 'api#threat', :constraints => {:term => /[^\/]+/}
-  get '/api/analytics/:stats_type', to: 'api#analytics'
+  get '/api/analytics/', to: 'api#analytics'
   get '/api/search_api/', to: 'search#search_api'
   post '/api/search_api/', to: 'search#search_api'
   # test controllers
