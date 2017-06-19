@@ -34,7 +34,7 @@
       <!-- /.panel-heading -->
       <div class="panel-body">
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-12">
             <div class="table-responsive">
               <table class="table table-bordered table-hover table-striped">
                 <thead>
@@ -51,7 +51,11 @@
                 <%@search.each do |n|%>
                 <tr>
                   <td><%=n[:threat_id]%></td>
-                  <td><%=n[:source_ids][0]%></td>
+            		  <%if !n[:source_ids]%>
+                      <td><%=n[:source_ids]%></td>
+            		  <%else%>
+            		      <td><%=n[:source_ids][0]%></td>
+            		  <%end%>
                   <td><%=n[:threat_tri]%></td>
                   <td><%=n[:risk]%></td>
                   <td><%=n[:country]%></td>
@@ -79,7 +83,7 @@
       <div class="panel-heading">
         <i class="fa fa-bar-chart-o fa-fw"></i> Bar Chart Example
         <div class="pull-right">
-          <div class="btn-group">
+          <!-- <div class="btn-group">
             <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
               Actions
               <span class="caret"></span>
@@ -95,7 +99,7 @@
               <li><a href="#">Separated link</a>
               </li>
             </ul>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- /.panel-heading -->
@@ -106,61 +110,19 @@
               <table class="table table-bordered table-hover table-striped">
                 <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Amount</th>
+                  <th>Country</th>
+                  <th>Count</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>3326</td>
-                  <td>10/21/2013</td>
-                  <td>3:29 PM</td>
-                  <td>$321.33</td>
-                </tr>
-                <tr>
-                  <td>3325</td>
-                  <td>10/21/2013</td>
-                  <td>3:20 PM</td>
-                  <td>$234.34</td>
-                </tr>
-                <tr>
-                  <td>3324</td>
-                  <td>10/21/2013</td>
-                  <td>3:03 PM</td>
-                  <td>$724.17</td>
-                </tr>
-                <tr>
-                  <td>3323</td>
-                  <td>10/21/2013</td>
-                  <td>3:00 PM</td>
-                  <td>$23.71</td>
-                </tr>
-                <tr>
-                  <td>3322</td>
-                  <td>10/21/2013</td>
-                  <td>2:49 PM</td>
-                  <td>$8345.23</td>
-                </tr>
-                <tr>
-                  <td>3321</td>
-                  <td>10/21/2013</td>
-                  <td>2:23 PM</td>
-                  <td>$245.12</td>
-                </tr>
-                <tr>
-                  <td>3320</td>
-                  <td>10/21/2013</td>
-                  <td>2:15 PM</td>
-                  <td>$5663.54</td>
-                </tr>
-                <tr>
-                  <td>3319</td>
-                  <td>10/21/2013</td>
-                  <td>2:13 PM</td>
-                  <td>$943.45</td>
-                </tr>
+                  <%temp=1%>
+                  <%@search_country.response[:aggregations][:group_by_country][:buckets].each do |n|%>
+                  <tr>
+                    <td id='<%="key_#{temp}" %>'><%=n[:key]%></td>
+                    <td id='<%="count_#{temp}" %>'><%=n.doc_count%></td>
+                  </tr>
+                  <%temp+=1%>
+                  <%end%>
                 </tbody>
               </table>
             </div>
@@ -211,61 +173,19 @@
               <table class="table table-bordered table-hover table-striped">
                 <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Amount</th>
+                  <th>Country</th>
+                  <th>Avg TRI</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>3326</td>
-                  <td>10/21/2013</td>
-                  <td>3:29 PM</td>
-                  <td>$321.33</td>
-                </tr>
-                <tr>
-                  <td>3325</td>
-                  <td>10/21/2013</td>
-                  <td>3:20 PM</td>
-                  <td>$234.34</td>
-                </tr>
-                <tr>
-                  <td>3324</td>
-                  <td>10/21/2013</td>
-                  <td>3:03 PM</td>
-                  <td>$724.17</td>
-                </tr>
-                <tr>
-                  <td>3323</td>
-                  <td>10/21/2013</td>
-                  <td>3:00 PM</td>
-                  <td>$23.71</td>
-                </tr>
-                <tr>
-                  <td>3322</td>
-                  <td>10/21/2013</td>
-                  <td>2:49 PM</td>
-                  <td>$8345.23</td>
-                </tr>
-                <tr>
-                  <td>3321</td>
-                  <td>10/21/2013</td>
-                  <td>2:23 PM</td>
-                  <td>$245.12</td>
-                </tr>
-                <tr>
-                  <td>3320</td>
-                  <td>10/21/2013</td>
-                  <td>2:15 PM</td>
-                  <td>$5663.54</td>
-                </tr>
-                <tr>
-                  <td>3319</td>
-                  <td>10/21/2013</td>
-                  <td>2:13 PM</td>
-                  <td>$943.45</td>
-                </tr>
+                  <%temp=1%>
+                  <%@search_by_tri.response[:aggregations][:group_by_country][:buckets].each do |n|%>
+                  <tr>
+                    <td id='<%="country_#{temp}" %>'><%=n[:key]%></td>
+                    <td id='<%="tri_#{temp}" %>'><%=n[:average_threat_tri][:value]%></td>
+                  </tr>
+                  <%temp+=1%>
+                  <%end%>
                 </tbody>
               </table>
             </div>

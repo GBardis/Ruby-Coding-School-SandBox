@@ -52,23 +52,16 @@ $(document).ready(function() {
 //Flot Pie Chart
 $(function() {
   if ($("#flot-pie-chart").length) {
-    var data = [{
-        label: "Series 0",
-        data: 1
-      },
-      {
-        label: "Series 1",
-        data: 3
-      },
-      {
-        label: "Series 2",
-        data: 9
-      },
-      {
-        label: "Series 3",
-        data: 20
+    var i
+    var data =[];
+    for(i=1;i<=10;i++){
+      var temp={
+        label: $("#key_"+i).html(),
+        data:  $("#count_"+i).html()
       }
-    ];
+      data.push(temp);
+    }
+
 
     var plotObj = $.plot($("#flot-pie-chart"), data, {
       series: {
@@ -95,23 +88,16 @@ $(function() {
 //Flot Pie Chart 2
 $(function() {
   if ($("#flot-pie-chart-2").length) {
-    var data = [{
-        label: "Series 0",
-        data: 1
-      },
-      {
-        label: "Series 1",
-        data: 3
-      },
-      {
-        label: "Series 2",
-        data: 9
-      },
-      {
-        label: "Series 3",
-        data: 20
+    var i
+    var data =[];
+    for(i=1;i<=10;i++){
+      var temp={
+        label: $("#country_"+i).html(),
+        data:  $("#tri_"+i).html()
       }
-    ];
+      data.push(temp);
+      
+    }
 
     var plotObj = $.plot($("#flot-pie-chart-2"), data, {
       series: {
