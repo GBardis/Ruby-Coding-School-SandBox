@@ -103,7 +103,7 @@
             <a href="#"><i class="fa fa-table fa-fw"></i> Admin<span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
               <li>
-                <a href="/admin">Edit columns</a>
+                <a href="/adminsettings/1/edit">Edit columns</a>
               </li>
             </ul>
             <!-- /.nav-second-level -->
@@ -118,7 +118,7 @@
                 <a href="/api/threat/daviaardell.org">Threat example</a>
               </li>
               <li>
-                <a href="/api/analytics/1">Analytics example</a>
+                <a href="/#">Analytics example</a>
               </li>
             </ul>
             <!-- /.nav-second-level -->
@@ -127,13 +127,13 @@
             <a href="#"><i class="fa fa-gears fa-fw"></i> Threat example<span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
               <li>
-                <a href="/threat/daviaardell.org">Show</a>
+                <a href="/search/5c7b2f04-24b9-4f90-9733-9196371652c5">Show</a>
               </li>
               <li>
-                <a href="/search/a3868e80-33a9-4593-b99f-c79a0c4d1cbd/edit">Edit</a>
+                <a href="/search/5c7b2f04-24b9-4f90-9733-9196371652c5/edit">Edit</a>
               </li>
               <li>
-                <a href="/edit-threat/daviaardell.org">Delete</a>
+                <a href="/search/5c7b2f04-24b9-4f90-9733-9196371652c5/edit">Delete</a>
               </li>
             </ul>
             <!-- /.nav-second-level -->
@@ -184,6 +184,10 @@
 <script src="../vendor/morrisjs/morris.min.js"></script>
 <script src="../data/morris-data.js"></script>
 
+<!-- Kuma Gauge JavaScript -->
+<script src="../vendor/kuma-gauge/kuma-gauge.jquery.js"></script>
+<script src="../data/kuma-gauge-data.js"></script>
+
 <!-- Custom Theme JavaScript -->
 <script src="../dist/js/sb-admin-2.js"></script>
 
@@ -202,6 +206,7 @@
             //"scrollY":        "600px",
             //"scrollCollapse": true,
             //"fixedHeader": true,
+            //"responsive": true,
             "language": {
                 "search": ""
             },
@@ -260,7 +265,7 @@
         });
 
 
-        $('#dataTables-example tbody').on('click', 'tr', function () {
+        $('#dataTables-example tbody').on('click', 'tr', function (event) {
             var data = table.row(this).data();
             //alert('You clicked on ' + data['threat_id'] + '\'s row');
             window.location.href = '/search/' + data['id'];

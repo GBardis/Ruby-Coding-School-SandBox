@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header">Threat record</h1>
+    <h1 class="page-header">Threat: <%= @Search.threat_id %></h1>
   </div>
   <!-- /.col-lg-12 -->
 </div>
@@ -13,32 +13,24 @@
   <% end %>
 </div>
 <div class="row">
-  <div class="col-lg-4">
-
+  <div class="col-lg-6">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
-      </div>
-      <!-- /.panel-heading -->
-      <div class="panel-body">
-        <div id="kuma-gauge" class="js-gauge gauge"></div>
-      </div>
-      <!-- /.panel-body -->
-    </div>
-    <!-- /.panel -->
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <i class="fa fa-bell fa-fw"></i> Notifications Panel
+        <i class="fa fa-table fa-fw"></i> Threat Info
       </div>
       <!-- /.panel-heading -->
       <div class="panel-body">
         <div class="list-group">
-          <%if @Search%>
-          <a href="#" class="list-group-item">
-            <i class="fa fa-comment fa-fw"></i> New Comment
-            <span class="pull-right text-muted small"><em>4 minutes ago</em>
-                                    </span>
-          </a>
+          <% if @Search %>
+              <% @Search.attributes.each do |name, value| %>
+                  <% next if name == :created_at || name == :updated_at %>
+                  <% next if current_user && !current_user.is_admin && @SkipColumns.include?(name) %>
+                  <% next if value.nil? || value == '' %>
+                  <div class="list-group-item">
+                    <%= value %>
+                    <span class="pull-right text-muted small"><em><%= t(name) %></em></span>
+                  </div>
+              <% end %>
           <% end %>
         </div>
       </div>
@@ -47,10 +39,40 @@
     <!-- /.panel -->
   </div>
   <!-- /.col-lg-4 -->
-  <div class="col-lg-8">
+  <div class="col-lg-6">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
+        <i class="fa fa-bar-chart-o fa-fw"></i> Gauge Bar
+      </div>
+      <!-- /.panel-heading -->
+      <div class="panel-body">
+        <div id="kuma-gauge" class="js-gauge gauge col-xs-6" data-value="<%= @Search.threat_tri.round(4)*100 %>"></div>
+
+        <div class="col-xs-6">
+          <div class="panel panel-green">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-xs-3">
+                  <i class="fa fa-tasks fa-5x"></i>
+                </div>
+                <div class="col-xs-9 text-right">
+                  <div class="huge"><%= @Search.threat_tri.round(4)*100 %>%</div>
+                  <div>TRI</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <i class="fa fa-bar-chart-o fa-fw"></i> Histogram
         <div class="pull-right">
           <div class="btn-group">
             <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -73,7 +95,8 @@
       </div>
       <!-- /.panel-heading -->
       <div class="panel-body">
-        <div id="morris-area-chart"></div>
+        <script>var histogram_data = <%= @HistogramData.html_safe %>;</script>
+        <div id="histogram-chart"></div>
       </div>
       <!-- /.panel-body -->
     </div>

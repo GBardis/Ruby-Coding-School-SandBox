@@ -18,7 +18,33 @@ class SearchController < ApplicationController
   end
 
   def show
-    @Search = Search.search(query: {match: {_id: params[:id]}}).first
+    response = Search.search(query: {match: {_id: params[:id]}})
+    byebug
+    if response.total != 1
+      byebug
+      redirect_to root_path
+    else
+      @SkipColumns = Set.new
+      Adminsetting.first.preferences.each do |name, value|
+        if value.to_i == 0
+          @SkipColumns.add(name.to_sym)
+        end
+      end
+      @Search = response.first
+      threat_id = @Search.threat_id
+      @HistogramData = Array.new
+      Search.indices.each do |index|
+        Search.index = index
+        response = Search.search(query: {match: {threat_id: threat_id}}).first
+        date = Date.strptime(index[9, 10], '%Y.%m.%d')
+        if (response)
+          @HistogramData << {:date => date.strftime('%F'), :tri => response.threat_tri, }
+        else
+          @HistogramData << {:date => date.strftime('%F'), :tri => 0}
+        end
+      end
+      @HistogramData = @HistogramData.reverse.to_json
+    end
   end
 
   def edit
@@ -77,8 +103,9 @@ class SearchController < ApplicationController
       direction = 'asc'
     end
 
-    # Get search result term: { threat_id: "10.84.205.13" }
-    search = Search.search query: {term: {country: term}},
+    # Get search result term:
+    # {"query":{"bool":{"should":[{"match":{"threat_id":"greece"}},{"match":{"country":"greece"}}]}}}
+    search = Search.search query: {bool: {should: [{term: {threat_id: term}}, {term: {country: term}}]}},
                            size: page_size, from: page_num, sort: [{order_by.to_sym => direction}]
 
     # Return data

@@ -1,4 +1,3 @@
-$('#kuma-gauge').kumaGauge({
-  // dynamic value-up<a href="http://www.jqueryscript.net/time-clock/">date</a>. just for sample.
-  value : Math.floor((Math.random() * 99) + 1),
-});
+var domElement = $('#kuma-gauge');
+var val = domElement.data('value');
+domElement.kumaGauge({value: val});
