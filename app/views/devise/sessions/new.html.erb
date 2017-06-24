@@ -21,7 +21,13 @@
               <span class="separator">·</span>
               <%= link_to t('.forgot_your_password', default: 'Forgot password?'), new_password_path(resource_name), class: 'forgot', rel: 'noopener' %>
             </div>
-            <%= f.submit t('.sign_in', default: 'Sign in'), class: 'btn btn-lg btn-success btn-block' %>
+            <div class="form-group">
+              <%= f.submit t('.sign_in', default: 'Sign in'), class: 'btn btn-lg btn-success btn-block' %>
+            </div>
+            <hr />
+            <div class="form-group">
+              <%= link_to 'Sign up', new_user_registration_path, class: 'btn btn-lg btn-default btn-block'  %>
+            </div>
           </fieldset>
       <% end %>
     </div>

@@ -2,6 +2,7 @@ require 'elasticsearch/model'
 require 'elasticsearch/persistence/model'
 require 'elasticsearch/dsl'
 class SearchController < ApplicationController
+  before_action :authenticate_admin!, only: [:edit, :update, :destroy]
 
   def index
     if (Adminsetting.count == 0)
@@ -19,9 +20,7 @@ class SearchController < ApplicationController
 
   def show
     response = Search.search(query: {match: {_id: params[:id]}})
-    byebug
     if response.total != 1
-      byebug
       redirect_to root_path
     else
       @SkipColumns = Set.new
