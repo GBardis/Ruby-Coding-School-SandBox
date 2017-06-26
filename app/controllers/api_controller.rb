@@ -2,12 +2,8 @@ class ApiController < ApplicationController
   require 'elasticsearch/persistence/model'
   require 'elasticsearch/dsl'
 
-  # http://localhost:3000/api/{term}/page_size/{page_size}/page_num/{page_num}/exact_search/{exact_search}/order_by/{order_by}/order_by_direction/{order_by_direction}
-  # http://localhost:3000/api/66.197.114/page_size/15/page_num/3
   def search
-
     term = '', page_size = 10, page_num = 0, exact_search = true, order_by = '_score', direction = 'desc', regex = false
-
     # Parse params
     if (params.has_key?(:term))
       term = params[:term]
@@ -36,8 +32,7 @@ class ApiController < ApplicationController
   def threat
     if (params.has_key?(:id))
       id = params[:id]
-    elsif
-      render
+    elsif render
     end
 
     search = Search.search query: {term: {threat_id: id}}, size: 1
@@ -46,8 +41,11 @@ class ApiController < ApplicationController
 
 
   def analytics
-      @search = Search.search(query:{match_all:{}},size:10,sort:['threat_tri': { "order": "desc" } ])
-      @search_country = Search.search(size:0,aggs:{'group_by_country':{'terms':{'field':'country.raw'}}})
-      @search_by_tri = Search.search(size:0,aggs:{'group_by_country':{'terms':{'field':'country.raw','order':{'average_threat_tri':'desc'}},aggs:{'average_threat_tri':{avg:{'field':'threat_tri'}}}}})
+    @search = Search.search(query: {match_all: {}}, size: 10, sort: [threat_tri: {order: 'desc'}])
+    @search_country = Search.search(size: 0, aggs: {group_by_country: {terms: {field: 'country.raw'}}})
+    @search_by_tri = Search.search(size: 0,
+                                   aggs: {group_by_country: {terms: {field: 'country.raw',
+                                                                     order: {average_threat_tri: 'desc'}},
+                                                             aggs: {average_threat_tri: {max: {field: 'threat_tri'}}}}})
   end
 end

@@ -1,50 +1,44 @@
-<div class="container">
-  <ul>
-    <div class="row">
-      <%=form_for @setting do |setting|%>
-        <div class="col-md-6">
-        </div>
-        <div>
-          <%=setting.fields_for :preferences  do |p|%>
-            <li>
-              <%=p.label :index%>
-              <%=p.check_box :index , checked: @hash.index_v.to_bool %>
-            </li>
-            <li>
-              <%=p.label :country%>
-              <%=p.check_box :country%>
-            </li>
-            <li>
-              <%=p.label :country_code%>
-              <%=p.check_box :country_code%>
-            </li>
-            <li>
-              <%=p.label :threat_id%>
-              <%=p.check_box :threat_id%>
-            </li>
-            <li>
-              <%=p.label :host%>
-              <%=p.check_box :host%>
-            </li>
-            <li>
-              <%=p.label :threat_tri%>
-              <%=p.check_box :threat_tri%>
-            </li>
-            <li>
-              <%=p.label :risk%>
-              <%=p.check_box :risk%>
-            </li>
-            <li>
-              <%=p.label :asn%>
-              <%=p.check_box :asn%>
-            </li>
-            <li>
-              <%=p.label :asn_registry%>
-              <%=p.check_box :asn_registry%>
-            </li>
-          <%end%>
-        </div>
-        <%=setting.submit nil , class: "btn-success"%>
-      <%end%>
-    </ul>
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header"></h1>
   </div>
+  <!-- /.col-lg-12 -->
+</div>
+
+
+<div class="row">
+  <div class="col-lg-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Visible Columns
+      </div>
+      <div class="panel-body">
+
+        <%= form_for @setting do |setting| %>
+            <div class="form-group">
+              <%#= select_tag 'adminsetting[preferences]', options_for_select(@available_columns, @setting.preferences), {class: 'form-control', multiple: true, size: @available_columns.length}%>
+              <%#= setting.select :preferences, options_for_select(@available_columns, @setting.preferences), {}, {class: 'form-control', multiple: true, size: @available_columns.length} %>
+              <%#= select_tag :preferences, options_from_collection_for_select(@setting.preferences, :value, :key ) %>
+              <%= setting.select :preferences, options_for_select(@available_columns, @setting.preferences), {include_hidden: false}, { class: 'admin-select form-control', multiple: true, size: @available_columns.length} %>
+
+              <%#= setting.select :preferences, nil,
+                             {prompt: "Select Permission Level"},
+                       {:multiple => true, class: "input-lg"} %>
+
+              <%#= collection_select('setting', 'preferences', setting.preferences, :first, :last) %>
+              <%#= select_tag('name', options_from_collection_for_select(setting.preferences, :first, :last, '2')) %>
+              <%#= collection_select(:user, :plan_ids, Plan.all, :id, :name, {:prompt => true, :multiple=>true })%>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-offset-8 col-md-4">
+                <%= setting.submit 'Submit', class: 'btn btn-primary btn-block' %>
+              </div>
+            </div>
+            <!-- /.form-group -->
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -38,8 +38,8 @@
   <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-  <%# <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%# <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'false' %>
+
 </head>
 
 <body>
@@ -47,7 +47,7 @@
 <div id="wrapper">
 
   <!-- Navigation -->
-  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0;">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
@@ -188,6 +188,8 @@
 <script src="../vendor/kuma-gauge/kuma-gauge.jquery.js"></script>
 <script src="../data/kuma-gauge-data.js"></script>
 
+<%= javascript_include_tag 'application', 'data-turbolinks-track': 'false' %>
+
 <!-- Custom Theme JavaScript -->
 <script src="../dist/js/sb-admin-2.js"></script>
 
@@ -215,13 +217,19 @@
                     "targets": ["edit-button"],
                     "className": "edit-button",
                     "data": null,
-                    "defaultContent": "<button class='btn btn-success'>Edit</button>"
+                    "render": function (data, type, full, meta) {
+                        return "<a href='search/"+ data['id']+
+                            "/edit' class='btn btn-success' data-skip='true'>Edit</a>";
+                    }
                 },
                 {
                     "targets": ["delete-button"],
                     "className": "delete-button",
                     "data": null,
-                    "defaultContent": "<button class='btn btn-warning'>Delete</button>"
+                    "render": function (data, type, full, meta) {
+                        return "<button class='btn btn-warning' data-recordId='" + data['id'] +
+                            "' data-toggle='modal' data-target='#confirm-delete' data-skip='true'>Delete</button>";
+                    }
                 }
             ],
             "ajax": {
@@ -243,7 +251,7 @@
                     return data;
                 }
             },
-            initComplete: function () {
+            "initComplete": function () {
                 var input = $('.dataTables_filter input').unbind(),
                     self = this.api(),
                     $searchButton = $('<button id="search-button" type="button" class="btn btn-outline btn-primary btn-circle"><i class="fa fa-search"></i></button>')
@@ -264,35 +272,31 @@
             }
         });
 
-
         $('#dataTables-example tbody').on('click', 'tr', function (event) {
+            if(event.target.attributes['data-skip'])
+                return;
             var data = table.row(this).data();
             //alert('You clicked on ' + data['threat_id'] + '\'s row');
             window.location.href = '/search/' + data['id'];
         });
 
         <% if current_user && current_user.is_admin %>
-        $('#dataTables-example tbody').on('click', '.edit-button', function (event) {
-            var data = table.row($(this).parents('tr')).data();
-            //alert('You clicked on ' + data['threat_id'] + '\'s edit');
-            window.location.href = '/search/' + data['id']+'/edit';
-            event.stopPropagation();
+        $('#confirm-delete').on('click', '.btn-ok', function(e) {
+            var $modalDiv = $(e.delegateTarget);
+            var id = $(this).data('recordId');
+            $modalDiv.addClass('loading');
+            $.ajax({
+                url: '/search/' + id,
+                type: 'DELETE',
+                success: function (result) {
+                    $modalDiv.modal('hide').removeClass('loading');
+                    $('#search-button').click();
+                }
+            });
         });
-
-        $('#dataTables-example tbody').on('click', '.delete-button', function (event) {
-            var data = table.row($(this).parents('tr')).data();
-            var conf = confirm('Are you sure you want to delete this item?');
-            if(conf) {
-                $.ajax({
-                    url: '/search/' + data['id'],
-                    type: 'DELETE',
-                    success: function(result) {
-                        alert('Threat with id ' + data['threat_id'] + ' was deleted..');
-                        $('#search-button').click();
-                    }
-                });
-            }
-            event.stopPropagation();
+        $('#confirm-delete').on('show.bs.modal', function(e) {
+            var data = $(e.relatedTarget).data();
+            $('.btn-ok', this).data('recordId', data.recordid);
         });
         <% end %>
     });

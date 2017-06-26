@@ -43,6 +43,7 @@ class SearchController < ApplicationController
         end
       end
       @HistogramData = @HistogramData.reverse.to_json
+      Search.index = Search.indices.first
     end
   end
 
@@ -53,15 +54,9 @@ class SearchController < ApplicationController
 
   def update
     @Search = Search.search(query: {match: {_id: params[:id]}}).first
-    # TODO: update all attributes
-    @Search.update_attributes(
-        threat_id: params[:threat_id],
-        threat_tri: params[:threat_tri].to_f
-    )
-
+    @Search.update_attributes(update_params)
     sleep 3
     flash[:success] = 'Record successfully updated!'
-    # redirect_to search_index_path
     redirect_to edit_search_url(@Search)
   end
 
@@ -72,8 +67,7 @@ class SearchController < ApplicationController
       flash[:success] = 'Record successfully deleted!' if @s.destroyed?
     rescue
     end
-    sleep 3
-    redirect_to search_index_path
+    return true
   end
 
   def search_api
@@ -106,9 +100,15 @@ class SearchController < ApplicationController
     # {"query":{"bool":{"should":[{"match":{"threat_id":"greece"}},{"match":{"country":"greece"}}]}}}
     search = Search.search query: {bool: {should: [{term: {threat_id: term}}, {term: {country: term}}]}},
                            size: page_size, from: page_num, sort: [{order_by.to_sym => direction}]
-
-    # Return data
     render json: {'draw': params[:draw], 'recordsTotal': search.total, 'recordsFiltered': search.total, 'data': search}
+  end
+
+  private
+
+  def update_params
+    params.require(:search).permit(:confidence, :risk, :type_description, :category_description, :country,
+                                   :continent_code, :location, :asn_registry, :source_ids, :host, :threat_tri, :type,
+                                   :category, :threat_type, :country_code, :city, :asn)
   end
 
 end

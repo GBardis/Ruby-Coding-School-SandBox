@@ -19,6 +19,7 @@ class Search < ApplicationRecord
   index_name indices.first
   document_type 'threatdb_tri'
 
+
   attribute :id, String, mapping: {fields: {'@id': {type: 'string'}}}
   attribute :_index, String, mapping: {fields: {'index': {type: 'string'}}}
   attribute :threat_id, String, mapping: {fields: {threat_id: {type: 'string'}}}
