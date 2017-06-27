@@ -4,8 +4,6 @@
   </div>
   <!-- /.col-lg-12 -->
 </div>
-
-
 <div class="row">
   <div class="col-lg-6">
     <div class="panel panel-default">
@@ -16,20 +14,10 @@
 
         <%= form_for @setting do |setting| %>
             <div class="form-group">
-              <%#= select_tag 'adminsetting[preferences]', options_for_select(@available_columns, @setting.preferences), {class: 'form-control', multiple: true, size: @available_columns.length}%>
-              <%#= setting.select :preferences, options_for_select(@available_columns, @setting.preferences), {}, {class: 'form-control', multiple: true, size: @available_columns.length} %>
-              <%#= select_tag :preferences, options_from_collection_for_select(@setting.preferences, :value, :key ) %>
-              <%= setting.select :preferences, options_for_select(@available_columns, @setting.preferences), {include_hidden: false}, { class: 'admin-select form-control', multiple: true, size: @available_columns.length} %>
-
-              <%#= setting.select :preferences, nil,
-                             {prompt: "Select Permission Level"},
-                       {:multiple => true, class: "input-lg"} %>
-
-              <%#= collection_select('setting', 'preferences', setting.preferences, :first, :last) %>
-              <%#= select_tag('name', options_from_collection_for_select(setting.preferences, :first, :last, '2')) %>
-              <%#= collection_select(:user, :plan_ids, Plan.all, :id, :name, {:prompt => true, :multiple=>true })%>
+              <%= setting.select :preferences, options_for_select(@available_columns, @setting.preferences),
+                                 { include_hidden: false },
+                                 { class: 'admin-select form-control', multiple: true, size: @available_columns.length } %>
             </div>
-
             <div class="form-group">
               <div class="col-md-offset-8 col-md-4">
                 <%= setting.submit 'Submit', class: 'btn btn-primary btn-block' %>

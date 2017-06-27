@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header">Threat: <%= @Search.threat_id %></h1>
+    <h1 class="page-header">Threat: <%= @search_result.threat_id %></h1>
   </div>
   <!-- /.col-lg-12 -->
 </div>
@@ -8,7 +8,8 @@
 <div class="row">
   <% flash.each do |message_type, message| %>
       <div class="alert alert-<%= message_type %> alert-dismissible" role="alert" style="padding-left:0!important;"><%= message %>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
       </div>
   <% end %>
 </div>
@@ -21,10 +22,9 @@
       <!-- /.panel-heading -->
       <div class="panel-body">
         <div class="list-group">
-          <% if @Search %>
-              <% @Search.attributes.each do |name, value| %>
-                  <% next if name == :created_at || name == :updated_at %>
-                  <% next if current_user && !current_user.is_admin && @SkipColumns.include?(name) %>
+          <% if @search_result %>
+              <% @search_result.attributes.each do |name, value| %>
+                  <% next if current_user && !current_user.is_admin && @skip_columns.include?(name) %>
                   <% next if value.nil? || value == '' %>
                   <div class="list-group-item">
                     <%= value %>
@@ -46,7 +46,7 @@
       </div>
       <!-- /.panel-heading -->
       <div class="panel-body">
-        <div id="kuma-gauge" class="js-gauge gauge col-xs-6" data-value="<%= @Search.threat_tri.round(4)*100 %>"></div>
+        <div id="kuma-gauge" class="js-gauge gauge col-xs-6" data-value="<%= @search_result.threat_tri.round(4)*100 %>"></div>
 
         <div class="col-xs-6">
           <div class="panel panel-green">
@@ -56,7 +56,7 @@
                   <i class="fa fa-tasks fa-5x"></i>
                 </div>
                 <div class="col-xs-9 text-right">
-                  <div class="huge"><%= @Search.threat_tri.round(4)*100 %>%</div>
+                  <div class="huge"><%= @search_result.threat_tri.round(4)*100 %>%</div>
                   <div>TRI</div>
                 </div>
               </div>
@@ -68,34 +68,13 @@
       <!-- /.panel-body -->
     </div>
     <!-- /.panel -->
-
-
     <div class="panel panel-default">
       <div class="panel-heading">
         <i class="fa fa-bar-chart-o fa-fw"></i> Histogram
-        <div class="pull-right">
-          <div class="btn-group">
-            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-              Actions
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu pull-right" role="menu">
-              <li><a href="#">Action</a>
-              </li>
-              <li><a href="#">Another action</a>
-              </li>
-              <li><a href="#">Something else here</a>
-              </li>
-              <li class="divider"></li>
-              <li><a href="#">Separated link</a>
-              </li>
-            </ul>
-          </div>
-        </div>
       </div>
       <!-- /.panel-heading -->
       <div class="panel-body">
-        <script>var histogram_data = <%= @HistogramData.html_safe %>;</script>
+        <script>var histogram_data = <%= @histogram_data.html_safe %>;</script>
         <div id="histogram-chart"></div>
       </div>
       <!-- /.panel-body -->

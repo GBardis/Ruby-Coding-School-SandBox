@@ -19,11 +19,11 @@
   <%= form_tag search_update_path, {method: 'put', class: 'form-horizontal'} do %>
       <div class="col-lg-6">
         <% i = 0 %>
-        <% @Search.attributes.each do |name, value| %>
+        <% @search_result.attributes.each do |name, value| %>
             <% puts name.to_s + '-'+ value.class.to_s %>
             <% i += 1 %>
             <% next if i%2 == 0 %>
-            <% next if @SkipColumns.include?(name) %>
+            <% next if @skip_columns.include?(name) %>
             <div class="form-group">
               <%= label_tag name, nil, class: 'col-md-4 control-label' %>
               <div class="col-md-6">
@@ -42,10 +42,10 @@
       <!-- /.col-lg-6 -->
       <div class="col-lg-6">
         <% i = 0 %>
-        <% @Search.attributes.each do |name, value| %>
+        <% @search_result.attributes.each do |name, value| %>
             <% i +=1 %>
             <% next if i%2 == 1 %>
-            <% next if @SkipColumns.include?(name) %>
+            <% next if @skip_columns.include?(name) %>
             <div class="form-group">
               <%= label_tag name, nil, class: 'col-md-4 control-label' %>
               <div class="col-md-6">

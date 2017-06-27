@@ -117,9 +117,6 @@
               <li>
                 <a href="/api/threat/daviaardell.org">Threat example</a>
               </li>
-              <li>
-                <a href="/#">Analytics example</a>
-              </li>
             </ul>
             <!-- /.nav-second-level -->
           </li>
@@ -218,7 +215,7 @@
                     "className": "edit-button",
                     "data": null,
                     "render": function (data, type, full, meta) {
-                        return "<a href='search/"+ data['id']+
+                        return "<a href='search/" + data['id'] +
                             "/edit' class='btn btn-success' data-skip='true'>Edit</a>";
                     }
                 },
@@ -273,15 +270,14 @@
         });
 
         $('#dataTables-example tbody').on('click', 'tr', function (event) {
-            if(event.target.attributes['data-skip'])
+            if (event.target.attributes['data-skip'])
                 return;
             var data = table.row(this).data();
-            //alert('You clicked on ' + data['threat_id'] + '\'s row');
             window.location.href = '/search/' + data['id'];
         });
 
         <% if current_user && current_user.is_admin %>
-        $('#confirm-delete').on('click', '.btn-ok', function(e) {
+        $('#confirm-delete').on('click', '.btn-ok', function (e) {
             var $modalDiv = $(e.delegateTarget);
             var id = $(this).data('recordId');
             $modalDiv.addClass('loading');
@@ -294,7 +290,7 @@
                 }
             });
         });
-        $('#confirm-delete').on('show.bs.modal', function(e) {
+        $('#confirm-delete').on('show.bs.modal', function (e) {
             var data = $(e.relatedTarget).data();
             $('.btn-ok', this).data('recordId', data.recordid);
         });
