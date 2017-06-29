@@ -1,5 +1,6 @@
 $(function() {
     $('#side-menu').metisMenu();
+    $('.admin-select').multiSelect( {minHeight:40 });
 });
 
 //Loads the correct sidebar on window load,

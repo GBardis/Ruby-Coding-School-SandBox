@@ -10,7 +10,19 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require jquery
+//= require bootstrap-sprockets
 //= require rails-ujs
-//= require turbolinks
+//= require jquery_ujs
+//= require jquery-ui
+// require turbolinks
 //= require multi-select
+//= require dataTables/jquery.dataTables
+//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+//= require jquery.flot
+//= require jquery.flot.resize
+//= require morris
+//= require d3
+//= require highcharts
+//= require highcharts/highcharts-more
 //= require_tree .
