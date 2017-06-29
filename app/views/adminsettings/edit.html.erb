@@ -1,3 +1,9 @@
+<% content_for :head_stylesheets do %>
+
+<% end %>
+<% content_for :head_javascripts do %>
+
+<% end %>
 <div class="row">
   <div class="col-lg-12">
     <h1 class="page-header"></h1>
@@ -29,4 +35,9 @@
     </div>
   </div>
 </div>
+
+<% content_for :body_javascripts do %>
+<%#= javascript_include_tag 'search-index' %>
+<%#= javascript_include_tag 'search-index-admin' if current_user && current_user.is_admin %>
+<% end %>
 

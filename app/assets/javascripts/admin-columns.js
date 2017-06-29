@@ -1,0 +1,1 @@
+$('.admin-select').multiSelect( {minHeight:40 });
