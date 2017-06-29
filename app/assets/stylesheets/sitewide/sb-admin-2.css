@@ -439,3 +439,6 @@ table.dataTable thead .sorting:after {
 
 }
 
+.ms-container {
+    width: auto !important;
+}

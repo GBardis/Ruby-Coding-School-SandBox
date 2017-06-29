@@ -1,5 +1,5 @@
 <% content_for :head_stylesheets do %>
-
+    <%= stylesheet_link_tag 'application-analytics' %>
 <% end %>
 <% content_for :head_javascripts do %>
 
@@ -35,20 +35,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                <%@search.each do |n|%>
-                <tr>
-                  <td><%=n[:threat_id]%></td>
-            		  <%if !n[:source_ids]%>
-                      <td><%=n[:source_ids]%></td>
-            		  <%else%>
-            		      <td><%=n[:source_ids][0]%></td>
-            		  <%end%>
-                  <td><%=n[:threat_tri]%></td>
-                  <td><%=n[:risk]%></td>
-                  <td><%=n[:country]%></td>
-                  <td><%=n[:asn]%></td>
-                </tr>
-                <%end%>
+                <% @search.each do |n| %>
+                    <tr>
+                      <td><%= n[:threat_id] %></td>
+                      <% if !n[:source_ids] %>
+                          <td><%= n[:source_ids] %></td>
+                      <% else %>
+                          <td><%= n[:source_ids][0] %></td>
+                      <% end %>
+                      <td><%= n[:threat_tri] %></td>
+                      <td><%= n[:risk] %></td>
+                      <td><%= n[:country] %></td>
+                      <td><%= n[:asn] %></td>
+                    </tr>
+                <% end %>
                 </tbody>
               </table>
             </div>
@@ -79,14 +79,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                  <%temp=1%>
-                  <%@search_country.response[:aggregations][:group_by_country][:buckets].each do |n|%>
-                  <tr>
-                    <td id='<%="key_#{temp}" %>'><%=n[:key]%></td>
-                    <td id='<%="count_#{temp}" %>'><%=n.doc_count%></td>
-                  </tr>
-                  <%temp+=1%>
-                  <%end%>
+                <% temp=1 %>
+                <% @search_country.response[:aggregations][:group_by_country][:buckets].each do |n| %>
+                    <tr>
+                      <td id='<%= "key_#{temp}" %>'><%= n[:key] %></td>
+                      <td id='<%= "count_#{temp}" %>'><%= n.doc_count %></td>
+                    </tr>
+                    <% temp+=1 %>
+                <% end %>
                 </tbody>
               </table>
             </div>
@@ -123,14 +123,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                  <%temp=1%>
-                  <%@search_by_tri.response[:aggregations][:group_by_country][:buckets].each do |n|%>
-                  <tr>
-                    <td id='<%="country_#{temp}" %>'><%=n[:key]%></td>
-                    <td id='<%="tri_#{temp}" %>'><%=n[:average_threat_tri][:value]%></td>
-                  </tr>
-                  <%temp+=1%>
-                  <%end%>
+                <% temp=1 %>
+                <% @search_by_tri.response[:aggregations][:group_by_country][:buckets].each do |n| %>
+                    <tr>
+                      <td id='<%= "country_#{temp}" %>'><%= n[:key] %></td>
+                      <td id='<%= "tri_#{temp}" %>'><%= n[:average_threat_tri][:value] %></td>
+                    </tr>
+                    <% temp+=1 %>
+                <% end %>
                 </tbody>
               </table>
             </div>
@@ -155,6 +155,5 @@
 <!-- /.row -->
 
 <% content_for :body_javascripts do %>
-<%= javascript_include_tag 'application-analytics' %>
-<%#= javascript_include_tag 'search-index-admin' if current_user && current_user.is_admin %>
+    <%= javascript_include_tag 'application-analytics' %>
 <% end %>

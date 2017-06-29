@@ -1,5 +1,5 @@
 <% content_for :head_stylesheets do %>
-
+    <%= stylesheet_link_tag 'application-admin-columns' %>
 <% end %>
 <% content_for :head_javascripts do %>
 
@@ -14,10 +14,13 @@
   <div class="col-lg-6">
     <div class="panel panel-default">
       <div class="panel-heading">
-        Visible Columns
+        Columns Administration
       </div>
       <div class="panel-body">
-
+<div class="row">
+  <div class="col-sm-6">Enabled</div>
+  <div class="col-sm-6">Disabled</div>
+</div> <hr />
         <%= form_for @setting do |setting| %>
             <div class="form-group">
               <%= setting.select :preferences, options_for_select(@available_columns, @setting.preferences),
@@ -37,7 +40,6 @@
 </div>
 
 <% content_for :body_javascripts do %>
-<%#= javascript_include_tag 'search-index' %>
-<%#= javascript_include_tag 'search-index-admin' if current_user && current_user.is_admin %>
+    <%= javascript_include_tag 'application-admin-columns' %>
 <% end %>
 
