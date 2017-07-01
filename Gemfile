@@ -64,9 +64,6 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 gem 'rails-i18n'
-<<<<<<< HEAD
-ruby "2.4.0"
-=======
 gem 'multi-select-rails'
 
 gem 'sprockets', '~> 3.7', '>= 3.7.1'
@@ -81,4 +78,4 @@ gem 'morris.js-rails'
 gem 'raphael-rails', '~> 2.1', '>= 2.1.2'
 gem 'd3_rails', '~> 4.1', '>= 4.1.1'
 gem 'highcharts-rails', '~> 5.0', '>= 5.0.7'
->>>>>>> 2d39964b40622a0b14ed814c3bebdae77c0bad40
+ruby "2.4.0"
