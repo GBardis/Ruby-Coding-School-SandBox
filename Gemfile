@@ -22,7 +22,7 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
+# gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -35,7 +35,7 @@ gem 'rails_12factor'
 # gem 'capistrano-rails', group: :development
 gem 'elasticsearch'
 gem 'elasticsearch-model'
-gem "elasticsearch-persistence", require: 'elasticsearch/persistence/model'
+gem 'elasticsearch-persistence', require: 'elasticsearch/persistence/model'
 gem 'elasticsearch-api'
 gem 'elasticsearch-transport'
 gem 'elasticsearch-dsl'
@@ -64,4 +64,21 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 gem 'rails-i18n'
+<<<<<<< HEAD
 ruby "2.4.0"
+=======
+gem 'multi-select-rails'
+
+gem 'sprockets', '~> 3.7', '>= 3.7.1'
+gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
+gem 'bootstrap-social-rails', '~> 4.12'
+gem 'jquery-datatables-rails', '~> 3.4'
+gem 'flot-rails', '~> 0.0.7'
+gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.2'
+gem 'jquery-rails', '~> 4.3', '>= 4.3.1'
+gem 'jquery-ui-rails', '~> 6.0', '>= 6.0.1'
+gem 'morris.js-rails'
+gem 'raphael-rails', '~> 2.1', '>= 2.1.2'
+gem 'd3_rails', '~> 4.1', '>= 4.1.1'
+gem 'highcharts-rails', '~> 5.0', '>= 5.0.7'
+>>>>>>> 2d39964b40622a0b14ed814c3bebdae77c0bad40

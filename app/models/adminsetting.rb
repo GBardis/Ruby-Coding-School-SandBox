@@ -1,3 +1,3 @@
 class Adminsetting < ApplicationRecord
-  serialize :preferences, Hash
+  serialize :preferences, Array
 end

@@ -1,6 +1,12 @@
+<% content_for :head_stylesheets do %>
+    <%= stylesheet_link_tag 'application-analytics' %>
+<% end %>
+<% content_for :head_javascripts do %>
+
+<% end %>
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header">Dashboard</h1>
+    <h1 class="page-header">Analytics</h1>
   </div>
   <!-- /.col-lg-12 -->
 </div>
@@ -11,25 +17,6 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <i class="fa fa-bar-chart-o fa-fw"></i> Top 10 ThreatDB entries by TRI
-        <div class="pull-right">
-          <!-- <div class="btn-group">
-            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-              Actions
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu pull-right" role="menu">
-              <li><a href="#">Action</a>
-              </li>
-              <li><a href="#">Another action</a>
-              </li>
-              <li><a href="#">Something else here</a>
-              </li>
-              <li class="divider"></li>
-              <li><a href="#">Separated link</a>
-              </li>
-            </ul>
-          </div> -->
-        </div>
       </div>
       <!-- /.panel-heading -->
       <div class="panel-body">
@@ -48,30 +35,26 @@
                 </tr>
                 </thead>
                 <tbody>
-                <%@search.each do |n|%>
-                <tr>
-                  <td><%=n[:threat_id]%></td>
-            		  <%if !n[:source_ids]%>
-                      <td><%=n[:source_ids]%></td>
-            		  <%else%>
-            		      <td><%=n[:source_ids][0]%></td>
-            		  <%end%>
-                  <td><%=n[:threat_tri]%></td>
-                  <td><%=n[:risk]%></td>
-                  <td><%=n[:country]%></td>
-                  <td><%=n[:asn]%></td>
-                </tr>
-                <%end%>
+                <% @search.each do |n| %>
+                    <tr>
+                      <td><%= n[:threat_id] %></td>
+                      <% if !n[:source_ids] %>
+                          <td><%= n[:source_ids] %></td>
+                      <% else %>
+                          <td><%= n[:source_ids][0] %></td>
+                      <% end %>
+                      <td><%= n[:threat_tri] %></td>
+                      <td><%= n[:risk] %></td>
+                      <td><%= n[:country] %></td>
+                      <td><%= n[:asn] %></td>
+                    </tr>
+                <% end %>
                 </tbody>
               </table>
             </div>
             <!-- /.table-responsive -->
           </div>
           <!-- /.col-lg-4 (nested) -->
-          <!-- <div class="col-lg-8">
-            <div id="morris-bar-chart"></div>
-          </div> -->
-          <!-- /.col-lg-8 (nested) -->
         </div>
         <!-- /.row -->
       </div>
@@ -81,26 +64,7 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <i class="fa fa-bar-chart-o fa-fw"></i> Bar Chart Example
-        <div class="pull-right">
-          <!-- <div class="btn-group">
-            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-              Actions
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu pull-right" role="menu">
-              <li><a href="#">Action</a>
-              </li>
-              <li><a href="#">Another action</a>
-              </li>
-              <li><a href="#">Something else here</a>
-              </li>
-              <li class="divider"></li>
-              <li><a href="#">Separated link</a>
-              </li>
-            </ul>
-          </div> -->
-        </div>
+        <i class="fa fa-bar-chart-o fa-fw"></i> Top 10 countries by Count
       </div>
       <!-- /.panel-heading -->
       <div class="panel-body">
@@ -115,14 +79,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                  <%temp=1%>
-                  <%@search_country.response[:aggregations][:group_by_country][:buckets].each do |n|%>
-                  <tr>
-                    <td id='<%="key_#{temp}" %>'><%=n[:key]%></td>
-                    <td id='<%="count_#{temp}" %>'><%=n.doc_count%></td>
-                  </tr>
-                  <%temp+=1%>
-                  <%end%>
+                <% temp=1 %>
+                <% @search_country.response[:aggregations][:group_by_country][:buckets].each do |n| %>
+                    <tr>
+                      <td id='<%= "key_#{temp}" %>'><%= n[:key] %></td>
+                      <td id='<%= "count_#{temp}" %>'><%= n.doc_count %></td>
+                    </tr>
+                    <% temp+=1 %>
+                <% end %>
                 </tbody>
               </table>
             </div>
@@ -144,26 +108,7 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <i class="fa fa-bar-chart-o fa-fw"></i> Bar Chart Example
-        <div class="pull-right">
-          <div class="btn-group">
-            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-              Actions
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu pull-right" role="menu">
-              <li><a href="#">Action</a>
-              </li>
-              <li><a href="#">Another action</a>
-              </li>
-              <li><a href="#">Something else here</a>
-              </li>
-              <li class="divider"></li>
-              <li><a href="#">Separated link</a>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <i class="fa fa-bar-chart-o fa-fw"></i> Top 10 countries by Avg Tri
       </div>
       <!-- /.panel-heading -->
       <div class="panel-body">
@@ -178,14 +123,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                  <%temp=1%>
-                  <%@search_by_tri.response[:aggregations][:group_by_country][:buckets].each do |n|%>
-                  <tr>
-                    <td id='<%="country_#{temp}" %>'><%=n[:key]%></td>
-                    <td id='<%="tri_#{temp}" %>'><%=n[:average_threat_tri][:value]%></td>
-                  </tr>
-                  <%temp+=1%>
-                  <%end%>
+                <% temp=1 %>
+                <% @search_by_tri.response[:aggregations][:group_by_country][:buckets].each do |n| %>
+                    <tr>
+                      <td id='<%= "country_#{temp}" %>'><%= n[:key] %></td>
+                      <td id='<%= "tri_#{temp}" %>'><%= n[:average_threat_tri][:value] %></td>
+                    </tr>
+                    <% temp+=1 %>
+                <% end %>
                 </tbody>
               </table>
             </div>
@@ -204,11 +149,11 @@
       <!-- /.panel-body -->
     </div>
     <!-- /.panel -->
-
-
-
-
   </div>
   <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
+
+<% content_for :body_javascripts do %>
+    <%= javascript_include_tag 'application-analytics' %>
+<% end %>

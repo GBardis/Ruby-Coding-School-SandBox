@@ -1,50 +1,45 @@
-<div class="container">
-  <ul>
-    <div class="row">
-      <%=form_for @setting do |setting|%>
-        <div class="col-md-6">
-        </div>
-        <div>
-          <%=setting.fields_for :preferences  do |p|%>
-            <li>
-              <%=p.label :index%>
-              <%=p.check_box :index , checked: @hash.index_v.to_bool %>
-            </li>
-            <li>
-              <%=p.label :country%>
-              <%=p.check_box :country%>
-            </li>
-            <li>
-              <%=p.label :country_code%>
-              <%=p.check_box :country_code%>
-            </li>
-            <li>
-              <%=p.label :threat_id%>
-              <%=p.check_box :threat_id%>
-            </li>
-            <li>
-              <%=p.label :host%>
-              <%=p.check_box :host%>
-            </li>
-            <li>
-              <%=p.label :threat_tri%>
-              <%=p.check_box :threat_tri%>
-            </li>
-            <li>
-              <%=p.label :risk%>
-              <%=p.check_box :risk%>
-            </li>
-            <li>
-              <%=p.label :asn%>
-              <%=p.check_box :asn%>
-            </li>
-            <li>
-              <%=p.label :asn_registry%>
-              <%=p.check_box :asn_registry%>
-            </li>
-          <%end%>
-        </div>
-        <%=setting.submit nil , class: "btn-success"%>
-      <%end%>
-    </ul>
+<% content_for :head_stylesheets do %>
+    <%= stylesheet_link_tag 'application-admin-columns' %>
+<% end %>
+<% content_for :head_javascripts do %>
+
+<% end %>
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header"></h1>
   </div>
+  <!-- /.col-lg-12 -->
+</div>
+<div class="row">
+  <div class="col-lg-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Columns Administration
+      </div>
+      <div class="panel-body">
+<div class="row">
+  <div class="col-sm-6">Enabled</div>
+  <div class="col-sm-6">Disabled</div>
+</div> <hr />
+        <%= form_for @setting do |setting| %>
+            <div class="form-group">
+              <%= setting.select :preferences, options_for_select(@available_columns, @setting.preferences),
+                                 { include_hidden: false },
+                                 { class: 'admin-select form-control', multiple: true, size: @available_columns.length } %>
+            </div>
+            <div class="form-group">
+              <div class="col-md-offset-8 col-md-4">
+                <%= setting.submit 'Submit', class: 'btn btn-primary btn-block' %>
+              </div>
+            </div>
+            <!-- /.form-group -->
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :body_javascripts do %>
+    <%= javascript_include_tag 'application-admin-columns' %>
+<% end %>
+
