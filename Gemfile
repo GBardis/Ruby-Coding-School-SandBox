@@ -60,6 +60,10 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
+group :heroku do
+  ruby '2.3.3'
+end
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
@@ -78,4 +82,3 @@ gem 'morris.js-rails'
 gem 'raphael-rails', '~> 2.1', '>= 2.1.2'
 gem 'd3_rails', '~> 4.1', '>= 4.1.1'
 gem 'highcharts-rails', '~> 5.0', '>= 5.0.7'
-ruby "2.4.0"

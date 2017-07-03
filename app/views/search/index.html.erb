@@ -35,7 +35,7 @@
                 <tr>
                   <% @search_result.first.attributes.each do |name, value| %>
                       <% next if name == :created_at || name == :updated_at %>
-                      <% next if current_user && !current_user.is_admin && @skip_columns.include?(name) %>
+                      <% next if current_user && !current_user.is_admin && @skip_columns.include?(name.to_s) %>
                       <th class="<%= name %>" data-name="<%= name %>" data-data="<%= name %>" data-orderable="<%= name != :threat_id %>"><%= t(name) %></th>
                   <% end %>
                   <% if current_user && current_user.is_admin %>

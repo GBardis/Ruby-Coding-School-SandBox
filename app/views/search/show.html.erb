@@ -30,7 +30,7 @@
         <div class="list-group">
           <% if @search_result %>
               <% @search_result.attributes.each do |name, value| %>
-                  <% next if current_user && !current_user.is_admin && @skip_columns.include?(name) %>
+                  <% next if current_user && !current_user.is_admin && @skip_columns.include?(name.to_s) %>
                   <% next if value.nil? || value == '' %>
                   <div class="list-group-item">
                     <%= value %>

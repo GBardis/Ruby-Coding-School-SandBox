@@ -1,4 +1,4 @@
-url_key = "https://kteam:draewjUgbksIjcv19epwhpkcpnzieqkn@159.8.53.13:443"
+url_key =  ENV['CRYPTIA_ELASTIC_URL'] || File.read('.secrets/url').strip
 config = {url: url_key, transport_options: {ssl: {ca_file: 'public/elasticsearch_cert.pem'}}}
 
 Elasticsearch::Persistence.client = Elasticsearch::Client.new(config)

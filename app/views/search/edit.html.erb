@@ -29,7 +29,7 @@
             <% puts name.to_s + '-'+ value.class.to_s %>
             <% i += 1 %>
             <% next if i%2 == 0 %>
-            <% next if @skip_columns.include?(name) %>
+            <% next if @skip_columns.include?(name.to_s) %>
             <div class="form-group">
               <%= label_tag name, nil, class: 'col-md-4 control-label' %>
               <div class="col-md-6">
@@ -51,7 +51,7 @@
         <% @search_result.attributes.each do |name, value| %>
             <% i +=1 %>
             <% next if i%2 == 1 %>
-            <% next if @skip_columns.include?(name) %>
+            <% next if @skip_columns.include?(name.to_s) %>
             <div class="form-group">
               <%= label_tag name, nil, class: 'col-md-4 control-label' %>
               <div class="col-md-6">
