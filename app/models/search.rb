@@ -36,11 +36,12 @@ class Search < ApplicationRecord
   attribute :country_code, String, mapping: { fields: { country_code: { type: 'string' } } }
   attribute :continent_code, String, mapping: { fields: { continent_code: { type: 'string' } } }
   attribute :city, String, mapping: { fields: { city: { type: 'string' } } }
-  attribute :location, Numeric, mapping: { fields: { location: { type: 'double' } } }
+  # location = [long, lat]
+  attribute :location, Array, mapping: { fields: { location: { type: 'double' } } }
   attribute :asn, String, mapping: { fields: { asn: { type: 'string' } } }
   attribute :asn_registry, String, mapping: { fields: { asn_registry: { type: 'string' } } }
   attribute :logid, String, mapping: { fields: { logid: { type: 'string' } } }
-  attribute :source_ids, String, mapping: { fields: { source_ids: { type: 'string' } } }
+  attribute :source_ids, Array, mapping: { fields: { source_ids: { type: 'string' } } }
 
   attribute :global_filter_time, Bignum, mapping: { fields: { '&global_filter_time'.to_sym => { type: 'long' } } }
   attribute :logstash_backend, String, mapping: { fields: { 'logstash_backend'.to_sym => { type: 'string' } } }

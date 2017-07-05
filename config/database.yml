@@ -9,15 +9,22 @@
 # And be sure to use new-style password hashing:
 #   http://dev.mysql.com/doc/refman/5.7/en/old-client.html
 #
+
+#default: &default
+#  adapter: postgresql
+#  encoding: unicode
+#  # For details on connection pooling, see rails configuration guide
+#  # http://guides.rubyonrails.org/configuring.html#database-pooling
+#  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+#  username: cryptia
+#  #password:
+#  host: localhost
+
 default: &default
-  adapter: postgresql
-  encoding: unicode
-  # For details on connection pooling, see rails configuration guide
-  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  adapter: mysql2
+  encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: cryptia
-  #password:
-  host: localhost
+  username: root
 
 development:
   <<: *default
@@ -56,4 +63,6 @@ production:
   password: <%= ENV['CRYPTIA_DATABASE_PASSWORD'] %>
 
 heroku:
+  adapter: postgresql
+  encoding: unicode
   url: <%= ENV['DATABASE_URL'] %>

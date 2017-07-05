@@ -23,17 +23,23 @@
 
 <div class="row">
   <%= form_tag search_update_path, {method: 'put', class: 'form-horizontal'} do %>
+      <%#= form_for @search_result, url: search_update_path, html: {method: 'put', class: 'form-horizontal'} do |f| %>
       <div class="col-lg-6">
         <% i = 0 %>
         <% @search_result.attributes.each do |name, value| %>
-            <% puts name.to_s + '-'+ value.class.to_s %>
             <% i += 1 %>
             <% next if i%2 == 0 %>
             <% next if @skip_columns.include?(name.to_s) %>
             <div class="form-group">
-              <%= label_tag name, nil, class: 'col-md-4 control-label' %>
+              <%= label_tag "search[#{name}]", t(name), class: 'col-md-4 control-label' %>
               <div class="col-md-6">
-                <%= text_field_tag name, value, class: 'form-control' %>
+                <% if value.class == Array %>
+                    <% value.each do |array_value| %>
+                        <%= text_field_tag "search[#{name}][]", array_value, class: 'form-control' %>
+                    <% end %>
+                <% else %>
+                    <%= text_field_tag "search[#{name}]", value, class: 'form-control' %>
+                <% end %>
               </div>
             </div>
             <!-- /.form-group -->
@@ -53,9 +59,15 @@
             <% next if i%2 == 1 %>
             <% next if @skip_columns.include?(name.to_s) %>
             <div class="form-group">
-              <%= label_tag name, nil, class: 'col-md-4 control-label' %>
+              <%= label_tag "search[#{name}]", t(name), class: 'col-md-4 control-label' %>
               <div class="col-md-6">
-                <%= text_field_tag name, value, class: 'form-control' %>
+                <% if value.class == Array %>
+                    <% value.each do |array_value| %>
+                        <%= text_field_tag "search[#{name}][]", array_value, class: 'form-control' %>
+                    <% end %>
+                <% else %>
+                    <%= text_field_tag "search[#{name}]", value, class: 'form-control' %>
+                <% end %>
               </div>
             </div>
             <!-- /.form-group -->

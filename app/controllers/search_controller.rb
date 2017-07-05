@@ -12,11 +12,11 @@ class SearchController < ApplicationController
       new_adminsetting.save
     end
     @skip_columns = Adminsetting.first.preferences
-    @search_result = Search.search(query: { match_all: {} }, size: 1)
+    @search_result = Search.search(query: {match_all: {}}, size: 1)
   end
 
   def show
-    response = Search.search(query: { match: { _id: params[:id] } })
+    response = Search.search(query: {match: {_id: params[:id]}})
     if response.total != 1
       flash[:warning] = 'Threat was not found'
       redirect_to root_path
@@ -24,15 +24,26 @@ class SearchController < ApplicationController
       @skip_columns = Adminsetting.first.preferences
       @search_result = response.first
       threat_id = @search_result.threat_id
+
+      @tri_rounded = (@search_result.threat_tri*100).round(1)
+      @fa_class = case @tri_rounded
+                   when 0..33
+                     'fa-check'
+                   when 34..66
+                     'fa-warning'
+                   else
+                    'fa-times'
+                 end
+
       @histogram_data = []
       Search.indices.each do |index|
         Search.index = index
-        response = Search.search(query: { match: { threat_id: threat_id } }).first
+        response = Search.search(query: {match: {threat_id: threat_id}}).first
         date = Date.strptime(index[9, 10], '%Y.%m.%d')
         if response
-          @histogram_data << { date: date.strftime('%F'), tri: response.threat_tri }
+          @histogram_data << {date: date.strftime('%F'), tri: response.threat_tri}
         else
-          @histogram_data << { date: date.strftime('%F'), tri: 0 }
+          @histogram_data << {date: date.strftime('%F'), tri: 0}
         end
       end
       @histogram_data = @histogram_data.reverse.to_json
@@ -42,12 +53,13 @@ class SearchController < ApplicationController
 
   def edit
     @skip_columns = Set.new
-    @search_result = Search.search(query: { match: { _id: params[:id] } }).first
+    @search_result = Search.search(query: {match: {_id: params[:id]}}).first
   end
 
   def update
-    @search_result = Search.search(query: { match: { _id: params[:id] } }).first
-    @search_result.update_attributes(update_params)
+    @search_result = Search.search(query: {match: {_id: params[:search][:id]}}).first
+    permitted_params = update_params
+    @search_result.update_attributes(permitted_params.to_h)
     sleep 3
     flash[:success] = 'Record successfully updated!'
     redirect_to edit_search_url(@search_result)
@@ -55,7 +67,7 @@ class SearchController < ApplicationController
 
   def destroy
     begin
-      @search_result = Search.search(query: { match: { _id: params[:id] } }).first
+      @search_result = Search.search(query: {match: {_id: params[:id]}}).first
       @search_result.destroy
       flash[:success] = 'Record successfully deleted!' if @search_result.destroyed?
     rescue
@@ -73,16 +85,16 @@ class SearchController < ApplicationController
     order_by = params[:order_column_name] if params.key?(:order_column_name)
     direction = 'asc' if params.key?(:order_dir) && params[:order_dir] == 'asc'
 
-    search_result = Search.search query: { bool: { should: [{ term: { threat_id: term } }, { term: { country: term } }] } },
-                                  size: page_size, from: page_num, sort: [{ order_by.to_sym => direction }]
-    render json: { draw: params[:draw], recordsTotal: search_result.total, recordsFiltered: search_result.total, data: search_result }
+    search_result = Search.search query: {bool: {should: [{term: {threat_id: term}}, {term: {country: term}}]}},
+                                  size: page_size, from: page_num, sort: [{order_by.to_sym => direction}]
+    render json: {draw: params[:draw], recordsTotal: search_result.total, recordsFiltered: search_result.total, data: search_result}
   end
 
   private
 
   def update_params
     params.require(:search).permit(:confidence, :risk, :type_description, :category_description, :country,
-                                   :continent_code, :location, :asn_registry, :source_ids, :host, :threat_tri, :type,
-                                   :category, :threat_type, :country_code, :city, :asn)
+                                   :continent_code, :asn_registry, :host, :threat_tri, :type,
+                                   :category, :threat_type, :country_code, :city, :asn, :source_ids => [], :location => [])
   end
 end
