@@ -1,6 +1,6 @@
 # Documentation # TODO: Documentation
 class AdminsettingsController < ApplicationController
-  before_action :authenticate_admin!, except: [:make_me_admin]
+  before_action :authenticate_admin!, except: [:reverse_admin_flag]
 
   def edit
     @setting = Adminsetting.first
