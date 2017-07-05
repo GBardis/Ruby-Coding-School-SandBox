@@ -13,4 +13,5 @@ Rails.application.routes.draw do
   get '/api/search_api/', to: 'search#search_api'
   post '/api/search_api/', to: 'search#search_api'
   get '/analytics', to: 'api#analytics'
+  get '/reverse-admin-flag', to: 'adminsettings#reverse_admin_flag'
 end
